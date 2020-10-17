@@ -1,0 +1,10 @@
+"meetings" : {
+{"meeting":{"bounds":"[8:20,9:20]","ID":1}},
+{"meeting":{"bounds":"[9:20,10:20]","ID":2}},
+{"meeting":{"bounds":"[10:20,11:20]","ID":3}},
+{"meeting":{"bounds":"[11:20,12:20]","ID":4}},
+{"meeting":{"bounds":"[12:20,13:20]","ID":5}},
+{"meeting":{"bounds":"[13:20,14:20]","ID":6}},
+{"meeting":{"bounds":"[18:00,19:00]","ID":7}},
+{"meeting":{"bounds":"[19:00,20:00]","ID":8}}
+}
