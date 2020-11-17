@@ -1,7 +1,7 @@
-package view.Client;
+package controller.Client;
 
-import model.Time;
-import controller.Client.Client;
+import model.data.Time;
+import model.Client.Client;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,7 +29,6 @@ public class ClientGUI extends JFrame {
 
 
     public Client myClient;
-    public boolean flagFormFinished = false;
     private DefaultListModel listModel;
 
     private JPanel newPanel;
@@ -65,7 +64,6 @@ public class ClientGUI extends JFrame {
         spinnerStartBound2.setModel(modelMinutes2);
     }
 
-
     public void addFocusListeners(){
         textField1.setText("localhost");
 
@@ -77,10 +75,8 @@ public class ClientGUI extends JFrame {
 
             @Override
             public void focusLost(FocusEvent e) {
-
             }
         });
-
     }
 
     public void  addActionListeners(){
@@ -118,6 +114,11 @@ public class ClientGUI extends JFrame {
         int end1 = (int)spinnerEndBound2.getValue();
 
         Time t = new Time(beg2, beg1, end2, end1);
+
+        if (t.end < t.beg) {
+            JOptionPane.showMessageDialog(this, "Wrong bound format. (Beginning is later than ending)");
+            return;
+        }
 
         double last;
 

@@ -1,4 +1,6 @@
-package controller.Client;
+package zTest;
+
+import model.Client.Client;
 
 public class ClientGenerator {
 

@@ -1,6 +1,6 @@
 package view.Client;
 
-import controller.Client.Client;
+import model.Client.Client;
 
 import org.json.simple.JSONObject;
 
@@ -103,7 +103,6 @@ public class GUIResponse extends JFrame {
 
 
     }
-
     @SuppressWarnings("unchecked")
     private void createJSON(){
         int counter = 1;

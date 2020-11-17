@@ -1,4 +1,4 @@
-package controller.Server;
+package model.Server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.*;
 
-import view.Server.ServerGUI;
-import model.Time;
-import model.Lock;
+import controller.Server.ServerGUI;
+import model.data.Time;
+import model.data.Lock;
+
 
 public class Server extends Thread{
 
@@ -22,54 +23,66 @@ public class Server extends Thread{
     private double MeetingLength;
     private ArrayList<ClientHandler> allConnectedClients = null;
     private int numberOfClients = 0;
-
+    private int connectedClients;
 
     //this function run everything
-    public Server(int port , ServerGUI svgui) {
-
-        ConnectGuiToSever(svgui);
+    public Server(int port) {
 
         finalCalendar = new ArrayList<>();
+        ConnectGuiToSever();
 
         //actually connected  out of all that declared participation
-        int connectedClients = 0;
-
+        connectedClients = 0;
         setServerToListenToPort(port);
 
-        synchronized (this) {
+        while (true) {
+
+            synchronized (this) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (numberOfClients < 1) {
+                System.out.println("Server terminated, wrong number of Clients");
+                return;
+            }
+
+            assignClientHandlersToClients(connectedClients, numberOfClients, numberOfClients);
+
+            System.out.println("Starting all ClientHandler threads");
+
+            //start all ClientHandler threads
+            this.StartAllClientHandlers(allConnectedClients);
+
+            ServerWaitForClientHandlerThreads();
+
+            System.out.println("Calculation of the common calendar is completed");
+
             try {
-                wait();
+                sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
 
-        if (numberOfClients < 1) {
-            System.out.println("Server terminated, wrong number of Clients");
-            return;
-        }
-
-        assignClientHandlersToClients(connectedClients, numberOfClients, numberOfClients);
-
-        System.out.println("Starting all ClientHandler threads");
-
-        //start all ClientHandler threads
-        this.StartAllClientHandlers(allConnectedClients);
-
-        ServerWaitForClientHandlerThreads();
-
-        System.out.println("Calculation of the common calendar is completed");
-
-        try {
-            sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            restart();
         }
     }
 
+    public void restart(){
+        allConnectedClients = null;
+        connectedClients = 0;
+        connectionSocket = null;
+        ClientHandler.finishedOperations = 0;
+        ClientHandler.finishedOperations = 0;
+        finalCalendar.clear();
+    }
+
     //gui management
-    public void ConnectGuiToSever(ServerGUI svgui){
-        SvGUI = svgui;
+    public void ConnectGuiToSever(){
+        SvGUI = new ServerGUI();
         SvGUI.setCurrentServer(this);
     }
 
@@ -96,7 +109,9 @@ public class Server extends Thread{
                 System.out.println("Client connected to the server application :" + connectedClients + " out of " + numberOfClients);
                 DataInputStream dis = new DataInputStream(connectionSocket.getInputStream());
                 DataOutputStream dos = new DataOutputStream(connectionSocket.getOutputStream());
+
                 SvGUI.refreshClientList("Client nr " + connectedClients);
+
                 allConnectedClients.add(new ClientHandler(dis, dos, connectionSocket, finalCalendar, minNumberOfCommonPartOperations, CommonLock, MeetingLength, SvGUI));
 
 
@@ -171,9 +186,7 @@ public class Server extends Thread{
     }
 
     public static void main(String[] args) {
-
-        ServerGUI svGUI = new ServerGUI();
-        Server server = new Server(5055, svGUI);
+        Server server = new Server(5055);
 
     }
 }

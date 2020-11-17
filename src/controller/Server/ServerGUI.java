@@ -1,6 +1,6 @@
-package view.Server;
+package controller.Server;
 
-import controller.Server.Server;
+import model.Server.Server;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,7 +35,6 @@ public class ServerGUI extends JFrame{
 
         setVisible(true);
     }
-
 
     //action listeners
     public void addActionListeners(){

@@ -1,4 +1,4 @@
-package controller.Client;
+package model.Client;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -6,9 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
 
-import view.Client.ClientGUI;
-import model.Calendars;
-import model.Time;
+import controller.Client.ClientGUI;
+import model.data.Calendars;
+import model.data.Time;
 import view.Client.GUIResponse;
 
 public class Client extends Thread{

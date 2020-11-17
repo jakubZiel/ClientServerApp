@@ -1,11 +1,11 @@
-package controller.Server;
+package model.Server;
 import java.io.*;
 import java.net.*;
 
-import view.Server.ServerGUI;
-import model.Lock;
-import model.Calendars;
-import model.Time;
+import controller.Server.ServerGUI;
+import model.data.Lock;
+import model.data.Calendars;
+import model.data.Time;
 import java.util.ArrayList;
 
 public class ClientHandler extends Thread {
@@ -82,7 +82,6 @@ public class ClientHandler extends Thread {
             int sizeOfCalendar = dataInputS.readInt();
 
             ObjectInputStream serializedIn = new ObjectInputStream(connectionSocket.getInputStream());
-
 
             for (int i = 0; i < sizeOfCalendar; i++)
                 clientsCalendar.add((Time) serializedIn.readObject());
