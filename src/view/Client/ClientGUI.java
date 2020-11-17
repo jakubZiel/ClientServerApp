@@ -1,4 +1,4 @@
-package controller.Client;
+package view.Client;
 
 import model.data.Time;
 import model.Client.Client;

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.*;
 
-import controller.Server.ServerGUI;
+import view.Server.ServerGUI;
 import model.data.Time;
 import model.data.Lock;
 

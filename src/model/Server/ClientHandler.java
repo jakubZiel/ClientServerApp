@@ -2,7 +2,7 @@ package model.Server;
 import java.io.*;
 import java.net.*;
 
-import controller.Server.ServerGUI;
+import view.Server.ServerGUI;
 import model.data.Lock;
 import model.data.Calendars;
 import model.data.Time;

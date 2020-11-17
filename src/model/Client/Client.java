@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
 
-import controller.Client.ClientGUI;
+import view.Client.ClientGUI;
 import model.data.Calendars;
 import model.data.Time;
 import view.Client.GUIResponse;
