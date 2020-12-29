@@ -1,4 +1,4 @@
-package model.data;
+package model.Data;
 
 /**
  * Class used as a synchronizing object.

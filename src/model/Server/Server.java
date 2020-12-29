@@ -7,83 +7,55 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.*;
 
+import controller.Server.ServerController;
 import view.Server.ServerGUI;
-import model.data.Time;
-import model.data.Lock;
+import model.Data.Time;
+import model.Data.Lock;
 
 
 public class Server extends Thread{
 
-    ServerGUI SvGUI;
+    public ServerController serverController;
+
 
     private ServerSocket socketHearing = null;
     private Socket connectionSocket = null;
     private ArrayList<Time> finalCalendar = null;
     private final Lock CommonLock = new Lock(0);
+    private final Lock ServerLock = new Lock(1);
     private double MeetingLength;
     private ArrayList<ClientHandler> allConnectedClients = null;
     private int numberOfClients = 0;
     private int connectedClients;
 
     //this function run everything
+
+    @Override
+    public void run(){
+        serverIsActiveAndResponding();
+    }
+
     public Server(int port) {
 
         finalCalendar = new ArrayList<>();
-        ConnectGuiToSever();
+
+        setServerController(new ServerController(this, new ServerGUI()));
 
         //actually connected  out of all that declared participation
         connectedClients = 0;
         setServerToListenToPort(port);
-
-        while (true) {
-
-            synchronized (this) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (numberOfClients < 1) {
-                System.out.println("Server terminated, wrong number of Clients");
-                return;
-            }
-
-            assignClientHandlersToClients(connectedClients, numberOfClients, numberOfClients);
-
-            System.out.println("Starting all ClientHandler threads");
-
-            //start all ClientHandler threads
-            this.StartAllClientHandlers(allConnectedClients);
-
-            ServerWaitForClientHandlerThreads();
-
-            System.out.println("Calculation of the common calendar is completed");
-
-            try {
-                sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            restart();
-        }
     }
 
+
+    //TODO : socket closing
     public void restart(){
         allConnectedClients = null;
         connectedClients = 0;
         connectionSocket = null;
         ClientHandler.finishedOperations = 0;
-        ClientHandler.finishedOperations = 0;
         finalCalendar.clear();
-    }
 
-    //gui management
-    public void ConnectGuiToSever(){
-        SvGUI = new ServerGUI();
-        SvGUI.setCurrentServer(this);
+        serverController.restartServerView();
     }
 
     //server management
@@ -110,9 +82,12 @@ public class Server extends Thread{
                 DataInputStream dis = new DataInputStream(connectionSocket.getInputStream());
                 DataOutputStream dos = new DataOutputStream(connectionSocket.getOutputStream());
 
-                SvGUI.refreshClientList("Client nr " + connectedClients);
 
-                allConnectedClients.add(new ClientHandler(dis, dos, connectionSocket, finalCalendar, minNumberOfCommonPartOperations, CommonLock, MeetingLength, SvGUI));
+                serverController.modelRequestsRefreshingConnectedClientsList("Client nr " + connectedClients);
+
+                allConnectedClients.add(new ClientHandler(
+                        dis, dos, connectionSocket, finalCalendar, minNumberOfCommonPartOperations,
+                        CommonLock, MeetingLength, serverController));
 
 
             } catch (IOException e) {
@@ -185,8 +160,55 @@ public class Server extends Thread{
         this.numberOfClients = numberOfClients;
     }
 
+    public void setServerController(ServerController serverController) {
+        this.serverController = serverController;
+    }
+
+    public void serverRunningForMultipleRequests(){
+        while (true){
+            serverIsActiveAndResponding();
+
+            synchronized (ServerLock){
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void serverIsActiveAndResponding(){
+
+        if (numberOfClients < 1) {
+            System.out.println("Server terminated, wrong number of Clients");
+            return;
+        }
+
+        assignClientHandlersToClients(connectedClients, numberOfClients, numberOfClients);
+
+        System.out.println("Starting all ClientHandler threads");
+
+        //start all ClientHandler threads
+        this.StartAllClientHandlers(allConnectedClients);
+
+        ServerWaitForClientHandlerThreads();
+
+        System.out.println("Calculation of the common calendar is completed");
+
+        try {
+            sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        restart();
+    }
+
     public static void main(String[] args) {
         Server server = new Server(5055);
+    }
 
+    //TODO socket closing
+    public void cleanUpResources() {
     }
 }

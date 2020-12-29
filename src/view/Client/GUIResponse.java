@@ -1,7 +1,6 @@
 package view.Client;
 
-import model.Client.Client;
-
+import controller.Client.ClientController;
 import org.json.simple.JSONObject;
 
 
@@ -16,19 +15,21 @@ import java.util.ArrayList;
 public class GUIResponse extends JFrame {
 
     ArrayList<String> finalCalendar;
-    Client client;
+    ClientController clientController;
     JList<String> calendar;
     JButton downloadJSON;
     JLabel finalCalendarLabel;
     JButton downloadFile;
 
-    public GUIResponse (ArrayList<String> finalCalendar, Client client) {
 
-        this.client = client;
+
+    public GUIResponse (ArrayList<String> finalCalendar, ClientController controller) {
+
+        this.clientController = controller;
         this.finalCalendar = finalCalendar;
 
-        if (this.client != null)
-            setLocation(client.getClGUI().getLocation());
+        if (this.clientController.getClientGUI() != null)
+            setLocation(clientController.getClientGUI().getLocation());
 
         setSize(new Dimension(600, 400));
 

@@ -11,6 +11,8 @@ public class ClientGenerator {
                 return;
             }
 
+            int counter = 0;
+
             try {
                 int numberOfClients = Integer.parseInt(args[0]);
 
@@ -19,6 +21,9 @@ public class ClientGenerator {
                 for (Client client : clients) {
                     client = new Client("192.168.1.110");
                     client.start();
+                    client.getClientController().moveGUILocation(40 * counter, 40 * counter);
+
+                    counter++;
                 }
             } catch (NumberFormatException e){
                 System.out.println("Argument is not a number!!!");

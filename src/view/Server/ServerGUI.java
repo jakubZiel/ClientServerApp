@@ -1,5 +1,6 @@
 package view.Server;
 
+import controller.Server.ServerController;
 import model.Server.Server;
 
 import javax.swing.*;
@@ -18,10 +19,11 @@ public class ServerGUI extends JFrame{
     private JButton TurnOff;
     private JLabel NumberOfClients;
     private JButton startServerButton;
-    private Server CurrentServer;
 
     private JList ClientList;
     private DefaultListModel listModel;
+
+    private ServerController serverController;
 
     public ServerGUI(){
         super("Server User Interface");
@@ -43,6 +45,9 @@ public class ServerGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Server terminated");
+
+                serverController.closeAllResources();
+
                 System.exit(69);
             }
         });
@@ -59,7 +64,7 @@ public class ServerGUI extends JFrame{
         ClientList.setModel(listModel);
     }
 
-    public void refreshClientList(String string){
+    public void refreshClientsList(String string){
         listModel.addElement(string);
     }
 
@@ -77,20 +82,21 @@ public class ServerGUI extends JFrame{
         }
         else  meetingLength = Double.parseDouble(MeetingLengthField.getText());
 
-        if(CurrentServer != null) {
-            CurrentServer.setNumberOfClients(NumberOfClientPara);
-            CurrentServer.setMeetingLength(meetingLength);
-        }
-        synchronized (CurrentServer) {
-            CurrentServer.notify();
-        }
+
+        serverController.viewHasFormForModel(NumberOfClientPara, meetingLength);
     }
 
     private boolean isNumberOfClientsOK(int result){
         return result > 0 && result < 10;
     }
 
-    public void setCurrentServer(Server currentServer) {
-        CurrentServer = currentServer;
+    public void setServerController(ServerController serverController) {
+        this.serverController = serverController;
+    }
+
+    public void restartListModel(){
+        listModel.clear();
     }
 }
+
+

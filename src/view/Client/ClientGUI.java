@@ -1,7 +1,7 @@
 package view.Client;
 
-import model.data.Time;
-import model.Client.Client;
+import controller.Client.ClientController;
+import model.Data.Time;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,8 +27,8 @@ public class ClientGUI extends JFrame {
     private JLabel hrsMin;
     private JLabel hrsMin2;
 
+    public ClientController clientController;
 
-    public Client myClient;
     private DefaultListModel listModel;
 
     private JPanel newPanel;
@@ -98,7 +98,9 @@ public class ClientGUI extends JFrame {
         shutDownButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Client program terminated"); System.exit(69);
+                System.out.println("Client program terminated");
+
+                System.exit(69);
             }
         });
     }
@@ -122,17 +124,17 @@ public class ClientGUI extends JFrame {
 
         double last;
 
-        if(myClient.calendar.size() == 0) {
+        if(clientController.getClient().calendar.size() == 0) {
             last = t.end;
             listModel.addElement("[" + beg2 + ":" + beg1+ "," + end2+ ":" + end1 + "]");
-            myClient.calendar.add(t);
+            clientController.getClient().calendar.add(t);
             return;
         }
-        else last = myClient.calendar.get(myClient.calendar.size()-1).end;
+        else last = clientController.getClient().calendar.get(clientController.getClient().calendar.size()-1).end;
 
         if(last > t.beg || last > t.end){
         }else {
-            myClient.calendar.add(t);
+            clientController.getClient().calendar.add(t);
             listModel.addElement("[" + beg2 + ":" + beg1+ "," + end2+ ":" + end1 + "]");
         }
     }
@@ -147,21 +149,21 @@ public class ClientGUI extends JFrame {
 
         if(ipInput.equals("localhost"))
             ipInput = "127.0.0.1";
-        myClient.setIpAddress(ipInput);
+        clientController.getClient().setIpAddress(ipInput);
 
-        synchronized (myClient){
-            myClient.notify();
-        }
+        clientController.viewSendsCalendarToModelAndRequestsFinalCalendar(ipInput);
     }
 
     //additional methods
-
-    public void bindWithClient(Client cl){
-        myClient = cl;
-    }
 
     public void initializeListModel() {
         listModel = new DefaultListModel();
         list1.setModel(listModel);
     }
+
+    public void setClientController(ClientController clientController) {
+        this.clientController = clientController;
+    }
+
+
 }

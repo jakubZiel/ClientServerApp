@@ -2,10 +2,10 @@ package model.Server;
 import java.io.*;
 import java.net.*;
 
-import view.Server.ServerGUI;
-import model.data.Lock;
-import model.data.Calendars;
-import model.data.Time;
+import controller.Server.ServerController;
+import model.Data.Lock;
+import model.Data.Calendars;
+import model.Data.Time;
 import java.util.ArrayList;
 
 public class ClientHandler extends Thread {
@@ -22,7 +22,8 @@ public class ClientHandler extends Thread {
     Lock commonLock;
     double MeetingLength;
 
-    public ServerGUI SvGUI;
+    public ServerController serverController;
+
 
     @Override    //this function run everything
     public void run() {
@@ -57,7 +58,8 @@ public class ClientHandler extends Thread {
         endConnection();
     }
 
-    public ClientHandler(DataInputStream dis, DataOutputStream dos, Socket connectionSocketPara, ArrayList<Time> finalCalendarPara, int minNumbOfCommonPartOperations, Lock cLock, double MeetingLength, ServerGUI svgui) {
+    public ClientHandler(DataInputStream dis, DataOutputStream dos, Socket connectionSocketPara, ArrayList<Time> finalCalendarPara,
+                         int minNumbOfCommonPartOperations, Lock cLock, double MeetingLength, ServerController controller) {
 
         dataInputS = dis;
         dataOutputS = dos;
@@ -66,7 +68,7 @@ public class ClientHandler extends Thread {
         this.minNumbOfCommonPartOperations = minNumbOfCommonPartOperations;
         commonLock = cLock;
         this.MeetingLength = MeetingLength;
-        SvGUI = svgui;
+        this.serverController = controller;
     }
 
     public static void CommonPartOperationFinished() {

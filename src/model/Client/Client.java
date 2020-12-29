@@ -6,14 +6,15 @@ import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
 
+import controller.Client.ClientController;
 import view.Client.ClientGUI;
-import model.data.Calendars;
-import model.data.Time;
+import model.Data.Calendars;
+import model.Data.Time;
 import view.Client.GUIResponse;
 
 public class Client extends Thread{
 
-    public ClientGUI ClGUI;
+    public ClientController clientController;
 
     private Socket connectionSocket = null;
     private String ipAddress;
@@ -27,10 +28,7 @@ public class Client extends Thread{
 
     private int portNumb = 5055;
 
-    private GUIResponse guiResponse;
-
-    //this function runs everything
-    private  void connectToServerSocket(){
+    private  void connectToServerSocket() {
 
         //connect to local host to correct port number
         try {
@@ -43,10 +41,10 @@ public class Client extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        sendCalendarToServer();
-        getFinalCalendarFromServer();
 
+    private void closeConnection(){
         try {
             dataOutputS.close();
             dataInputS.close();
@@ -61,13 +59,13 @@ public class Client extends Thread{
 
         finalCalendarString = new ArrayList<>();
         calendar = new ArrayList<>();
-        ClGUI = new ClientGUI();
-        ClGUI.bindWithClient(this);
+        clientController = new ClientController(this, new ClientGUI());
 
     }
 
     @Override
     public void run() {
+
         synchronized (this) {
             try {
                 wait();
@@ -77,18 +75,24 @@ public class Client extends Thread{
         }
 
         connectToServerSocket();
+
+        sendCalendarToServer();
+        getFinalCalendarFromServer();
+
+        closeConnection();
+
         Calendars.justPrintFormattedToString(finalCalendarString);
 
 
         try {
-            sleep(2000);
+            sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        ClGUI.setVisible(false);
+        clientController.hideViewRequestFromModel();
 
-        guiResponse = new GUIResponse(finalCalendarString, this);
+        clientController.setGuiResponse(new GUIResponse(finalCalendarString, clientController));
 
     }
 
@@ -122,6 +126,11 @@ public class Client extends Thread{
         }
     }
 
+
+    public ClientController getClientController() {
+        return clientController;
+    }
+
     public String getIpAddress() {
         return ipAddress;
     }
@@ -130,11 +139,8 @@ public class Client extends Thread{
         this.ipAddress = ipAddress;
     }
 
-    public ClientGUI getClGUI() {
-        return ClGUI;
-    }
-
     public static void main(String[] args) {
         Client client = new Client("192.168.1.110");
     }
+
 }

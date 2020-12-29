@@ -1,4 +1,4 @@
-package model.data;
+package model.Data;
 
 import java.io.Serializable;
 
