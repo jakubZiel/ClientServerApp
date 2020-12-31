@@ -12,7 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GUIResponse extends JFrame {
+public class ResponsePanel extends JPanel {
 
     ArrayList<String> finalCalendar;
     ClientController clientController;
@@ -23,13 +23,10 @@ public class GUIResponse extends JFrame {
 
 
 
-    public GUIResponse (ArrayList<String> finalCalendar, ClientController controller) {
+    public ResponsePanel (ArrayList<String> finalCalendar, ClientController controller) {
 
         this.clientController = controller;
         this.finalCalendar = finalCalendar;
-
-        if (this.clientController.getClientGUI() != null)
-            setLocation(clientController.getClientGUI().getLocation());
 
         setSize(new Dimension(600, 400));
 
@@ -42,7 +39,6 @@ public class GUIResponse extends JFrame {
 
         setLayout(null);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void addButtons(){
@@ -170,19 +166,5 @@ public class GUIResponse extends JFrame {
         finalCalendarLabel.setSize(250, 50);
         finalCalendarLabel.setFont(new Font("myFont", Font.PLAIN  ,20));
 
-    }
-
-    public static void main(String[] args) {
-        ArrayList<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-        list.add("1");
-
-        new GUIResponse(list,null);
     }
 }

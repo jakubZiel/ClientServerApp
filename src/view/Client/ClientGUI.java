@@ -4,6 +4,8 @@ import controller.Client.ClientController;
 import model.Data.Time;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -26,12 +28,17 @@ public class ClientGUI extends JFrame {
     private JSpinner spinnerEndBound2;
     private JLabel hrsMin;
     private JLabel hrsMin2;
+    private JButton removeBound;
+    private ResponsePanel responsePanel;
 
     public ClientController clientController;
 
     private DefaultListModel listModel;
 
     private JPanel newPanel;
+    private boolean sent = false;
+
+
 
     public ClientGUI(){
         super("Client User Interface");
@@ -82,16 +89,25 @@ public class ClientGUI extends JFrame {
     public void  addActionListeners(){
 
         connectButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (sent)
+                    return;
+                else
+                    sent = true;
+
                 connectAction();
             }
         });
 
         addBoundButton.addActionListener(new ActionListener() {
             @Override
+
             public void actionPerformed(ActionEvent e) {
-                addBoundToSet();
+
+                if (!sent)
+                    addBoundToSet();
             }
         });
 
@@ -103,13 +119,32 @@ public class ClientGUI extends JFrame {
                 System.exit(69);
             }
         });
+
+        removeBound.addActionListener(new ActionListener() {
+
+            int index = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (!list1.isSelectionEmpty() && !sent) {
+                    index = list1.getSelectedIndex();
+                    DefaultListModel<String> model = (DefaultListModel<String>) list1.getModel();
+                    model.remove(index);
+                    list1.revalidate();
+                    list1.repaint();
+
+                    clientController.removeIndexFromClientsCalendar(index);
+                }
+            }
+        });
+
     }
 
     //action listeners bodies
 
     public  void addBoundToSet(){
 
-        String ipAddress = textField1.getText();
         int beg2 = (int)spinnerStartBound1.getValue();
         int end2 = (int)spinnerEndBound1.getValue();
         int beg1 = (int)spinnerStartBound2.getValue();
@@ -117,26 +152,20 @@ public class ClientGUI extends JFrame {
 
         Time t = new Time(beg2, beg1, end2, end1);
 
-        if (t.end < t.beg) {
-            JOptionPane.showMessageDialog(this, "Wrong bound format. (Beginning is later than ending)");
+        if (t.end <= t.beg) {
+            JOptionPane.showMessageDialog(this, "Wrong bound format. (Beginning is later than ending or equal to)");
             return;
         }
 
-        double last;
+        if (!list1.isSelectionEmpty() && clientController.validateCalendarInput(beg2,beg1,end2,end1,list1.getSelectedIndex(), list1.isSelectionEmpty()))
+            listModel.insertElementAt("[" + beg2 + ":" + beg1+ "," + end2+ ":" + end1 + "]",list1.getSelectedIndex());
 
-        if(clientController.getClient().calendar.size() == 0) {
-            last = t.end;
+        else if (list1.isSelectionEmpty() && clientController.validateCalendarInput(beg2,beg1,end2,end1,list1.getModel().getSize(),list1.isSelectionEmpty()))
             listModel.addElement("[" + beg2 + ":" + beg1+ "," + end2+ ":" + end1 + "]");
-            clientController.getClient().calendar.add(t);
-            return;
-        }
-        else last = clientController.getClient().calendar.get(clientController.getClient().calendar.size()-1).end;
 
-        if(last > t.beg || last > t.end){
-        }else {
-            clientController.getClient().calendar.add(t);
-            listModel.addElement("[" + beg2 + ":" + beg1+ "," + end2+ ":" + end1 + "]");
-        }
+        revalidate();
+        repaint();
+
     }
 
     public void connectAction(){
@@ -151,7 +180,8 @@ public class ClientGUI extends JFrame {
             ipInput = "127.0.0.1";
         clientController.getClient().setIpAddress(ipInput);
 
-        clientController.viewSendsCalendarToModelAndRequestsFinalCalendar(ipInput);
+        if (clientController.getClient().checkIfServerIsListening())
+            clientController.viewSendsCalendarToModelAndRequestsFinalCalendar(ipInput);
     }
 
     //additional methods
@@ -165,5 +195,11 @@ public class ClientGUI extends JFrame {
         this.clientController = clientController;
     }
 
+    public void setResponsePanel(ResponsePanel responsePanel) {
+        this.responsePanel = responsePanel;
+    }
 
+    public ResponsePanel getResponsePanel() {
+        return responsePanel;
+    }
 }

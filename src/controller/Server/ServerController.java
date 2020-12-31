@@ -4,11 +4,14 @@ import model.Server.Server;
 import view.Server.ServerGUI;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ServerController {
 
     private Server server;
     private ServerGUI serverGUI;
+    private boolean serverRunning = false;
+
 
     public ServerController(Server server, ServerGUI serverGUI) {
         this.server = server;
@@ -23,7 +26,15 @@ public class ServerController {
             server.setNumberOfClients(NumberOfClients);
             server.setMeetingLength(meetingLength);
 
-            server.start();
+            if (!serverRunning){
+                serverRunning = true;
+                server.start();
+
+
+            } else synchronized (server.getServerLock()){
+                server.getServerLock().notify();
+            }
+
         }
     }
 
@@ -44,6 +55,8 @@ public class ServerController {
     public void restartServerView(){
 
        serverGUI.restartListModel();
+       serverGUI.getStatusBar().setForeground(Color.RED);
+       serverGUI.getStatusBar().setText("status : inactive");
     }
 
     public Server getServer() {
@@ -54,7 +67,8 @@ public class ServerController {
         return serverGUI;
     }
 
-    public void closeAllResources() {
-        server.cleanUpResources();
+    public void terminateServer() {
+        server.terminateServer();
     }
+
 }

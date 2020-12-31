@@ -1,4 +1,4 @@
 "meetings" : {
-{"meeting":{"bounds":"[10:00,12:00]","ID":1}},
-{"meeting":{"bounds":"[12:00,14:00]","ID":2}}
+{"meeting":{"bounds":"[1:00,2:00]","ID":1}},
+{"meeting":{"bounds":"[2:00,3:00]","ID":2}}
 }

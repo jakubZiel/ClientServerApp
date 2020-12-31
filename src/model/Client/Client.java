@@ -10,7 +10,6 @@ import controller.Client.ClientController;
 import view.Client.ClientGUI;
 import model.Data.Calendars;
 import model.Data.Time;
-import view.Client.GUIResponse;
 
 public class Client extends Thread{
 
@@ -36,7 +35,6 @@ public class Client extends Thread{
 
             dataInputS = new DataInputStream(connectionSocket.getInputStream());
             dataOutputS = new DataOutputStream(connectionSocket.getOutputStream());
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,10 +87,8 @@ public class Client extends Thread{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        clientController.hideViewRequestFromModel();
-
-        clientController.setGuiResponse(new GUIResponse(finalCalendarString, clientController));
+        
+        clientController.showFinalCalendarToView();
 
     }
 
@@ -126,7 +122,6 @@ public class Client extends Thread{
         }
     }
 
-
     public ClientController getClientController() {
         return clientController;
     }
@@ -139,8 +134,65 @@ public class Client extends Thread{
         this.ipAddress = ipAddress;
     }
 
+    public ArrayList<String> getFinalCalendarString() {
+        return finalCalendarString;
+    }
+
     public static void main(String[] args) {
         Client client = new Client("192.168.1.110");
     }
 
+    public ArrayList<Time> getCalendar() {
+        return calendar;
+    }
+
+    public boolean validateCalendarInput(int beg2, int beg1, int end2, int end1, int dstIndex, boolean notSelected) {
+
+        Time t = new Time(beg2, beg1, end2, end1);
+
+        double front;
+        double back;
+
+        if(clientController.getClient().calendar.size() == 0) {
+            clientController.getClient().calendar.add(t);
+            return true;
+        }
+
+        back = clientController.getClient().calendar.get(clientController.getClient().calendar.size()-1).end;
+
+        if (notSelected){
+            if (back < t.beg) {
+                clientController.getClient().calendar.add(t);
+                return true;
+            }
+        }else {
+
+            if (dstIndex != 0)
+                front = clientController.getClient().calendar.get(dstIndex - 1).end;
+            else
+                front = 0.0;
+
+            if (dstIndex != clientController.getClient().calendar.size() - 1)
+                back = clientController.getClient().calendar.get(dstIndex).beg;
+            else
+                back = Double.MAX_VALUE;
+
+            if (dstIndex == 0 &&  clientController.getClient().calendar.size() == 1){
+                front = 0.0;
+                back = clientController.getClient().calendar.get(0).beg;
+            }
+
+            if (t.beg > front && t.end < back) {
+                clientController.getClient().calendar.add(dstIndex, t);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean checkIfServerIsListening(){
+
+        return true;
+    }
 }

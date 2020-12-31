@@ -2,7 +2,8 @@ package controller.Client;
 
 import model.Client.Client;
 import view.Client.ClientGUI;
-import view.Client.GUIResponse;
+
+import view.Client.ResponsePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +11,6 @@ import java.awt.*;
 public class ClientController {
     private Client client;
     private ClientGUI clientGUI;
-    private GUIResponse guiResponse;
-
 
     public ClientController(Client client, ClientGUI clientGUI) {
         this.client = client;
@@ -35,24 +34,9 @@ public class ClientController {
 
     public void viewSendsCalendarToModelAndRequestsFinalCalendar(String address){
         client.setIpAddress(address);
-
         synchronized (client){
             client.notify();
         }
-    }
-
-    public void hideViewRequestFromModel(){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                clientGUI.setVisible(false);
-            }
-        });
-
-    }
-
-    public void setGuiResponse(GUIResponse guiResponse) {
-        this.guiResponse = guiResponse;
     }
 
     public void moveGUILocation(int dx, int dy){
@@ -62,5 +46,35 @@ public class ClientController {
         location.y += dy;
 
         clientGUI.setLocation(location);
+    }
+
+    public void showFinalCalendarToView() {
+
+        ClientController controller = this;
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+
+                clientGUI.setResponsePanel(new ResponsePanel(controller.getClient().getFinalCalendarString(), controller));
+                clientGUI.setContentPane(clientGUI.getResponsePanel());
+                clientGUI.revalidate();
+                clientGUI.repaint();
+            }
+        });
+    }
+
+    public void removeIndexFromClientsCalendar(int index) {
+        client.getCalendar().remove(index);
+    }
+
+    public boolean validateCalendarInput(int beg2, int end2, int beg1, int end1, int dstIndex, boolean notSelected){
+
+        return client.validateCalendarInput(beg2, end2, beg1, end1, dstIndex, notSelected);
+    }
+
+
+    public boolean isServerListening(){
+       return client.checkIfServerIsListening();
     }
 }

@@ -32,7 +32,7 @@ public class Server extends Thread{
 
     @Override
     public void run(){
-        serverIsActiveAndResponding();
+        serverRunningForMultipleRequests();
     }
 
     public Server(int port) {
@@ -46,8 +46,6 @@ public class Server extends Thread{
         setServerToListenToPort(port);
     }
 
-
-    //TODO : socket closing
     public void restart(){
         allConnectedClients = null;
         connectedClients = 0;
@@ -92,7 +90,8 @@ public class Server extends Thread{
 
             } catch (IOException e) {
                 try {
-                    connectionSocket.close();
+                    if (connectionSocket!= null)
+                        connectionSocket.close();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
@@ -170,7 +169,7 @@ public class Server extends Thread{
 
             synchronized (ServerLock){
                 try {
-                    wait();
+                    ServerLock.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -204,11 +203,29 @@ public class Server extends Thread{
         restart();
     }
 
+    public void terminateServer() {
+        try {
+            if (allConnectedClients!= null)
+                 for (ClientHandler clients : allConnectedClients){
+                    clients.endConnection();
+                 }
+
+            socketHearing.close();
+            socketHearing = null;
+            System.gc();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public Lock getServerLock() {
+        return ServerLock;
+    }
+
     public static void main(String[] args) {
         Server server = new Server(5055);
     }
 
-    //TODO socket closing
-    public void cleanUpResources() {
-    }
+
 }

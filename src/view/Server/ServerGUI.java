@@ -4,6 +4,7 @@ import controller.Server.ServerController;
 import model.Server.Server;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +22,7 @@ public class ServerGUI extends JFrame{
     private JButton startServerButton;
 
     private JList ClientList;
+    private JLabel statusBar;
     private DefaultListModel listModel;
 
     private ServerController serverController;
@@ -46,7 +48,7 @@ public class ServerGUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Server terminated");
 
-                serverController.closeAllResources();
+                serverController.terminateServer();
 
                 System.exit(69);
             }
@@ -82,6 +84,8 @@ public class ServerGUI extends JFrame{
         }
         else  meetingLength = Double.parseDouble(MeetingLengthField.getText());
 
+        statusBar.setText("status : active");
+        statusBar.setForeground(Color.GREEN);
 
         serverController.viewHasFormForModel(NumberOfClientPara, meetingLength);
     }
@@ -96,6 +100,10 @@ public class ServerGUI extends JFrame{
 
     public void restartListModel(){
         listModel.clear();
+    }
+
+    public JLabel getStatusBar() {
+        return statusBar;
     }
 }
 
