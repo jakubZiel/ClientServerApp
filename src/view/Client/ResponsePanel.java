@@ -3,7 +3,6 @@ package view.Client;
 import controller.Client.ClientController;
 import org.json.simple.JSONObject;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,6 +20,7 @@ public class ResponsePanel extends JPanel {
     JLabel finalCalendarLabel;
     JButton downloadFile;
 
+    JButton sendAnotherRequest;
 
 
     public ResponsePanel (ArrayList<String> finalCalendar, ClientController controller) {
@@ -57,6 +57,11 @@ public class ResponsePanel extends JPanel {
         downloadFile.setLocation(this.getWidth() / 4 + this.getWidth() / 2 - downloadFile.getWidth() / 2, 160);
         downloadFile.setText("Download file");
 
+        sendAnotherRequest = new JButton();
+        add(sendAnotherRequest);
+        sendAnotherRequest.setSize(250,60);
+        sendAnotherRequest.setLocation(this.getWidth() / 4 + this.getWidth() / 2 - downloadFile.getWidth() / 2, 70);
+        sendAnotherRequest.setText("Next request");
     }
 
     private void addActionListeners(){
@@ -72,6 +77,19 @@ public class ResponsePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createFile();
+            }
+        });
+
+
+        sendAnotherRequest.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                clientController.getClientGUI().setSent(false);
+                clientController.restoreClientThread();
+                clientController.getClientGUI().setContentPane(clientController.getClientGUI().getMainPanel());
+                clientController.getClientGUI().clearCalendar();
+
             }
         });
     }

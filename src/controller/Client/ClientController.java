@@ -12,16 +12,20 @@ public class ClientController {
     private Client client;
     private ClientGUI clientGUI;
 
-    public ClientController(Client client, ClientGUI clientGUI) {
-        this.client = client;
-        this.clientGUI = clientGUI;
+    public ClientController() {
+        this.clientGUI = new ClientGUI();
+        this.client = new Client("127.0.0.1");
 
+        connectClientToController();
         connectGUIToController();
     }
 
-    public void connectGUIToController(){
+    private void connectClientToController() {
+        this.client.setClientController(this);
+    }
 
-        clientGUI.setClientController(this);
+    public void connectGUIToController(){
+        this.clientGUI.setClientController(this);
     }
 
     public Client getClient() {
@@ -33,10 +37,7 @@ public class ClientController {
     }
 
     public void viewSendsCalendarToModelAndRequestsFinalCalendar(String address){
-        client.setIpAddress(address);
-        synchronized (client){
-            client.notify();
-        }
+        client.start();
     }
 
     public void moveGUILocation(int dx, int dy){
@@ -73,8 +74,38 @@ public class ClientController {
         return client.validateCalendarInput(beg2, end2, beg1, end1, dstIndex, notSelected);
     }
 
+    public void displayServerIsNotReady() {
+        clientGUI.displayInfoServerIsNotReady();
+        client = new Client(client.getIpAddress());
+        client.setClientController(this);
+        clientGUI.clearCalendar();
+    }
 
-    public boolean isServerListening(){
-       return client.checkIfServerIsListening();
+    public void showThatClientIsConnected(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                clientGUI.setIsConnectedTrue();
+            }
+        });
+    }
+
+    public void showThatClientIsNotConnected(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                clientGUI.setIsConnectedFalse();
+            }
+        });
+    }
+
+    public void restoreClientThread(){
+        client = new Client("127.0.0.1");
+        client.setClientController(this);
+
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        ClientController controller = new ClientController();
     }
 }

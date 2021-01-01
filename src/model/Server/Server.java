@@ -17,7 +17,6 @@ public class Server extends Thread{
 
     public ServerController serverController;
 
-
     private ServerSocket socketHearing = null;
     private Socket connectionSocket = null;
     private ArrayList<Time> finalCalendar = null;
@@ -43,7 +42,6 @@ public class Server extends Thread{
 
         //actually connected  out of all that declared participation
         connectedClients = 0;
-        setServerToListenToPort(port);
     }
 
     public void restart(){
@@ -165,7 +163,9 @@ public class Server extends Thread{
 
     public void serverRunningForMultipleRequests(){
         while (true){
+            setServerToListenToPort(5055);
             serverIsActiveAndResponding();
+            stopListeningToPort();
 
             synchronized (ServerLock){
                 try {
@@ -174,6 +174,14 @@ public class Server extends Thread{
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public void stopListeningToPort(){
+        try {
+            socketHearing.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -226,6 +234,5 @@ public class Server extends Thread{
     public static void main(String[] args) {
         Server server = new Server(5055);
     }
-
 
 }

@@ -7,7 +7,6 @@ import java.net.*;
 import java.util.ArrayList;
 
 import controller.Client.ClientController;
-import view.Client.ClientGUI;
 import model.Data.Calendars;
 import model.Data.Time;
 
@@ -27,18 +26,14 @@ public class Client extends Thread{
 
     private int portNumb = 5055;
 
-    private  void connectToServerSocket() {
+    private  void connectToServerSocket() throws IOException {
 
         //connect to local host to correct port number
-        try {
+
             connectionSocket = new Socket(ipAddress, portNumb);
 
             dataInputS = new DataInputStream(connectionSocket.getInputStream());
             dataOutputS = new DataOutputStream(connectionSocket.getOutputStream());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -57,38 +52,40 @@ public class Client extends Thread{
 
         finalCalendarString = new ArrayList<>();
         calendar = new ArrayList<>();
-        clientController = new ClientController(this, new ClientGUI());
 
     }
 
     @Override
     public void run() {
 
-        synchronized (this) {
+
+        try {
+            connectToServerSocket();
+
+            clientController.getClientGUI().setSent(true);
+
+            clientController.showThatClientIsConnected();
+
+            sendCalendarToServer();
+            getFinalCalendarFromServer();
+
+            closeConnection();
+
+            Calendars.justPrintFormattedToString(finalCalendarString);
+
             try {
-                wait();
+                sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            clientController.showFinalCalendarToView();
+            clientController.showThatClientIsNotConnected();
+
+        } catch (IOException e){
+            clientController.showThatClientIsNotConnected();
+            clientController.displayServerIsNotReady();
         }
-
-        connectToServerSocket();
-
-        sendCalendarToServer();
-        getFinalCalendarFromServer();
-
-        closeConnection();
-
-        Calendars.justPrintFormattedToString(finalCalendarString);
-
-
-        try {
-            sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        clientController.showFinalCalendarToView();
 
     }
 
@@ -191,9 +188,7 @@ public class Client extends Thread{
         return false;
     }
 
-    //TODO
-    public boolean checkIfServerIsListening(){
-
-        return true;
+    public void setClientController(ClientController clientController) {
+        this.clientController = clientController;
     }
 }

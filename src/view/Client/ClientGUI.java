@@ -4,8 +4,7 @@ import controller.Client.ClientController;
 import model.Data.Time;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -29,6 +28,7 @@ public class ClientGUI extends JFrame {
     private JLabel hrsMin;
     private JLabel hrsMin2;
     private JButton removeBound;
+    private JLabel isConnected;
     private ResponsePanel responsePanel;
 
     public ClientController clientController;
@@ -92,11 +92,8 @@ public class ClientGUI extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (sent)
-                    return;
-                else
-                    sent = true;
 
+                if (!sent)
                 connectAction();
             }
         });
@@ -180,11 +177,12 @@ public class ClientGUI extends JFrame {
             ipInput = "127.0.0.1";
         clientController.getClient().setIpAddress(ipInput);
 
-        if (clientController.getClient().checkIfServerIsListening())
-            clientController.viewSendsCalendarToModelAndRequestsFinalCalendar(ipInput);
+        clientController.viewSendsCalendarToModelAndRequestsFinalCalendar(ipInput);
     }
 
     //additional methods
+
+
 
     public void initializeListModel() {
         listModel = new DefaultListModel();
@@ -201,5 +199,36 @@ public class ClientGUI extends JFrame {
 
     public ResponsePanel getResponsePanel() {
         return responsePanel;
+    }
+
+    public void displayInfoServerIsNotReady() {
+        JOptionPane.showMessageDialog(this, "Can not sent form, server is not ready!");
+    }
+
+    public void setSent(boolean sent){
+        this.sent = sent;
+    }
+
+    public void setIsConnectedTrue(){
+        isConnected.setText("Connected");
+        isConnected.setForeground(Color.GREEN);
+    }
+
+    public void setIsConnectedFalse(){
+        isConnected.setText("Not Connected");
+        isConnected.setForeground(Color.RED);
+    }
+
+
+    public void clearCalendar(){
+        DefaultListModel model;
+        model = (DefaultListModel) list1.getModel();
+        model.clear();
+        revalidate();
+        repaint();
+    }
+
+    public JPanel getMainPanel() {
+        return MainPanel;
     }
 }

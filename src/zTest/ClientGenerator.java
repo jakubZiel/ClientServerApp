@@ -1,6 +1,6 @@
 package zTest;
 
-import model.Client.Client;
+import controller.Client.ClientController;
 
 public class ClientGenerator {
 
@@ -16,13 +16,11 @@ public class ClientGenerator {
             try {
                 int numberOfClients = Integer.parseInt(args[0]);
 
-                Client[] clients = new Client[numberOfClients];
+                ClientController[] clients = new ClientController[numberOfClients];
 
-                for (Client client : clients) {
-                    client = new Client("192.168.1.110");
-                    client.start();
-                    client.getClientController().moveGUILocation(40 * counter, 40 * counter);
-
+                for (ClientController client : clients) {
+                    client = new ClientController();
+                    client.moveGUILocation(40 * counter, 40 * counter);
                     counter++;
                 }
             } catch (NumberFormatException e){
