@@ -191,6 +191,7 @@ public class Client extends Thread{
         return false;
     }
 
+    //TODO
     public boolean checkIfServerIsListening(){
 
         return true;
