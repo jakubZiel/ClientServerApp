@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class ClientHandler extends Thread {
 
 
+
     static int finishedOperations = 0;
 
     DataInputStream dataInputS;

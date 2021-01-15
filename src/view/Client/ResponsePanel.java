@@ -19,9 +19,7 @@ public class ResponsePanel extends JPanel {
     JButton downloadJSON;
     JLabel finalCalendarLabel;
     JButton downloadFile;
-
     JButton sendAnotherRequest;
-
 
     public ResponsePanel (ArrayList<String> finalCalendar, ClientController controller) {
 

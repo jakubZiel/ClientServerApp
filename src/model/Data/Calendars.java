@@ -203,13 +203,13 @@ public class Calendars {
         return resultFormatted;
     }
 
-    public static void justPrintFormattedToString(ArrayList<String> resultFormated){
+    public static void justPrintFormattedToString(ArrayList<String> resultFormatted){
 
         int i = 1;
-        if(resultFormated == null) System.out.println("null");
-        else if( resultFormated.size() == 0) System.out.println("size == 0");
+        if(resultFormatted == null) System.out.println("null");
+        else if( resultFormatted.size() == 0) System.out.println("size == 0");
         else
-        for(String s : resultFormated) {
+        for(String s : resultFormatted) {
             System.out.println("meeting nr " + i + " " + s);
             i++;
         }

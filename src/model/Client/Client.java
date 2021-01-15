@@ -169,10 +169,8 @@ public class Client extends Thread{
             else
                 front = 0.0;
 
-            if (dstIndex != clientController.getClient().calendar.size() - 1)
                 back = clientController.getClient().calendar.get(dstIndex).beg;
-            else
-                back = Double.MAX_VALUE;
+
 
             if (dstIndex == 0 &&  clientController.getClient().calendar.size() == 1){
                 front = 0.0;
@@ -191,4 +189,5 @@ public class Client extends Thread{
     public void setClientController(ClientController clientController) {
         this.clientController = clientController;
     }
+
 }

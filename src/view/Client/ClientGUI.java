@@ -39,14 +39,12 @@ public class ClientGUI extends JFrame {
     private boolean sent = false;
 
 
-
     public ClientGUI(){
         super("Client User Interface");
 
         setContentPane(MainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 450);
-
         setAdvancedComponentSettings();
 
         setVisible(true);
@@ -135,9 +133,7 @@ public class ClientGUI extends JFrame {
                 }
             }
         });
-
     }
-
     //action listeners bodies
 
     public  void addBoundToSet(){
@@ -154,16 +150,36 @@ public class ClientGUI extends JFrame {
             return;
         }
 
-        if (!list1.isSelectionEmpty() && clientController.validateCalendarInput(beg2,beg1,end2,end1,list1.getSelectedIndex(), list1.isSelectionEmpty()))
-            listModel.insertElementAt("[" + beg2 + ":" + beg1+ "," + end2+ ":" + end1 + "]",list1.getSelectedIndex());
-
-        else if (list1.isSelectionEmpty() && clientController.validateCalendarInput(beg2,beg1,end2,end1,list1.getModel().getSize(),list1.isSelectionEmpty()))
-            listModel.addElement("[" + beg2 + ":" + beg1+ "," + end2+ ":" + end1 + "]");
+        tryToInsertToSet(beg2,beg1,end2,end1);
 
         revalidate();
         repaint();
 
     }
+
+    private void tryToInsertToSet(int beg2,int beg1, int end2, int end1){
+        String beg1String;
+        String end1String;
+
+        if (beg1 < 10)
+            beg1String = '0' + String.valueOf(beg1);
+        else
+            beg1String = String.valueOf(beg1);
+
+        if (end1 < 10)
+            end1String = '0' + String.valueOf(end1);
+        else
+            end1String = String.valueOf(end1);
+
+        if (!list1.isSelectionEmpty() && clientController.validateCalendarInput(beg2,beg1,end2,end1,list1.getSelectedIndex(), list1.isSelectionEmpty())){
+            listModel.insertElementAt("[" + beg2 + ":" + beg1String + "," + end2 + ":" + end1String + "]", list1.getSelectedIndex());
+            }
+        else if (list1.isSelectionEmpty() && clientController.validateCalendarInput(beg2,beg1,end2,end1,list1.getModel().getSize(),list1.isSelectionEmpty()))
+            listModel.addElement("[" + beg2 + ":" + beg1String+ "," + end2+ ":" + end1String + "]");
+
+    }
+
+
 
     public void connectAction(){
 

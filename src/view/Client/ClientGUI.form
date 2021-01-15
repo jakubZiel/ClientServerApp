@@ -21,7 +21,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Start bound"/>
+              <text value="Start:hours"/>
             </properties>
           </component>
           <component id="8adeb" class="javax.swing.JSpinner" binding="spinnerStartBound1">
@@ -35,7 +35,7 @@
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="End bound"/>
+              <text value="End:hours"/>
             </properties>
           </component>
           <component id="a0ffa" class="javax.swing.JSpinner" binding="spinnerEndBound1">
@@ -61,7 +61,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="hours : minutes"/>
+              <text value="Start:minutes"/>
             </properties>
           </component>
           <component id="7a373" class="javax.swing.JLabel" binding="hrsMin2">
@@ -69,7 +69,7 @@
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="hours:minutes"/>
+              <text value="End:minutes"/>
             </properties>
           </component>
         </children>

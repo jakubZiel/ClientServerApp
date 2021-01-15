@@ -218,9 +218,8 @@ public class Server extends Thread{
                     clients.endConnection();
                  }
 
-            socketHearing.close();
-            socketHearing = null;
-            System.gc();
+            if (socketHearing != null)
+                socketHearing.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
