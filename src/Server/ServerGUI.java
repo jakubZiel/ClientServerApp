@@ -1,15 +1,17 @@
-package view.Server;
-
-import controller.Server.ServerController;
-import model.Server.Server;
+package Server;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * View module of MVC for Server App. Main responsibilities are to show currently connected clients and acquire new session parameters from user.
+ * GUI provides possibility to make multiple sessions and to close connection at will.
+ */
 
 public class ServerGUI extends JFrame{
+
 
     private JPanel mainPanel;
     private JPanel PanelLeft;
@@ -27,6 +29,9 @@ public class ServerGUI extends JFrame{
 
     private ServerController serverController;
 
+    /**
+     * Sets actions Listeners, initializes JList model and make frame visible.
+     */
     public ServerGUI(){
         super("Server User Interface");
         setContentPane(mainPanel);
@@ -40,7 +45,9 @@ public class ServerGUI extends JFrame{
         setVisible(true);
     }
 
-    //action listeners
+    /**
+     * Add action Listeners to buttons startServer and TurnOff.
+     */
     public void addActionListeners(){
 
         TurnOff.addActionListener(new ActionListener() {
@@ -60,16 +67,26 @@ public class ServerGUI extends JFrame{
         });
     }
 
-    //additional methods
+    /**
+     * Sets new data model for JList.
+     */
     public void initializeListModel(){
         listModel = new DefaultListModel();
         ClientList.setModel(listModel);
     }
 
+    /**
+     * After receiving new connection, function updates JList with new ClientConnection and its number.
+     * @param string takes Argumetn that is to be added to JList, in our case it is 'Client nr x'
+     */
     public void refreshClientsList(String string){
         listModel.addElement(string);
     }
 
+    /**
+     * If everything is filled, it confirms that model can be set with data recently acquired from form. It also sets
+     * server status to active.
+     */
     public void FormHasBeenFinished(){
         String textField = MeetingLengthField.getText();
         Double meetingLength;
@@ -90,14 +107,18 @@ public class ServerGUI extends JFrame{
         serverController.viewHasFormForModel(NumberOfClientPara, meetingLength);
     }
 
+    /**
+     * Check if number of clients is a natural number.
+     * @param result number of clients that we expect for incoming session
+     * @return if is or is not a natural number smaller than 10
+     */
     private boolean isNumberOfClientsOK(int result){
         return result > 0 && result < 10;
     }
 
-    public void setServerController(ServerController serverController) {
-        this.serverController = serverController;
-    }
-
+    /**
+     * Clears JList model of items (connected clients) after end of session
+     */
     public void restartListModel(){
         listModel.clear();
     }
@@ -105,6 +126,16 @@ public class ServerGUI extends JFrame{
     public JLabel getStatusBar() {
         return statusBar;
     }
+
+    public void setServerController(ServerController serverController) {
+        this.serverController = serverController;
+    }
+
+    public ServerController getServerController() {
+        return serverController;
+    }
+
+
 }
 
 

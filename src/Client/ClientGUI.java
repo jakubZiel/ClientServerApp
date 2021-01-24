@@ -1,7 +1,6 @@
-package view.Client;
+package Client;
 
-import controller.Client.ClientController;
-import model.Data.Time;
+import Data.Time;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
+/**
+ * View module of MVC for Client App. Main responsibilities are to show the result of request to screen, and take input from user.
+ * GUI provides possibility to make multiple requests and to download result of request as a simple file or JSON.
+ */
 public class ClientGUI extends JFrame {
 
     private JPanel MainPanel;
@@ -31,11 +33,10 @@ public class ClientGUI extends JFrame {
     private JLabel isConnected;
     private ResponsePanel responsePanel;
 
-    public ClientController clientController;
+    private ClientController clientController;
 
     private DefaultListModel listModel;
 
-    private JPanel newPanel;
     private boolean sent = false;
 
 
@@ -50,6 +51,9 @@ public class ClientGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Utility function to set JComponents.
+     */
     private void setAdvancedComponentSettings(){
         setSpinner();
         initializeListModel();
@@ -57,6 +61,9 @@ public class ClientGUI extends JFrame {
         addFocusListeners();
     }
 
+    /**
+     * Sets spinners.
+     */
     private void setSpinner(){
         SpinnerNumberModel modelHours1 = new SpinnerNumberModel(0, 0, 23, 1);
         SpinnerNumberModel modelMinutes1 = new SpinnerNumberModel(0, 0, 59, 1);
@@ -68,6 +75,10 @@ public class ClientGUI extends JFrame {
         spinnerStartBound1.setModel(modelHours2);
         spinnerStartBound2.setModel(modelMinutes2);
     }
+
+    /**
+     * Ads focus listener to ip address input field.
+     */
 
     public void addFocusListeners(){
         textField1.setText("localhost");
@@ -83,6 +94,10 @@ public class ClientGUI extends JFrame {
             }
         });
     }
+
+    /**
+     * Adds actionListeners to buttons.
+     */
 
     public void  addActionListeners(){
 
@@ -111,7 +126,7 @@ public class ClientGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Client program terminated");
 
-                System.exit(69);
+                System.exit(2137);
             }
         });
 
@@ -134,8 +149,11 @@ public class ClientGUI extends JFrame {
             }
         });
     }
-    //action listeners bodies
 
+    /**
+     * Add Item to JList representation of client calendar. After Clicking add button, procedure acquires
+     * values of setting fields and adds element at its place.
+     */
     public  void addBoundToSet(){
 
         int beg2 = (int)spinnerStartBound1.getValue();
@@ -157,6 +175,13 @@ public class ClientGUI extends JFrame {
 
     }
 
+    /**
+     * Utility function that insert time object into calendar. Uses validation from model.
+     * @param beg2 hour of beginning
+     * @param beg1 minutes of beginning
+     * @param end2 hour of ending
+     * @param end1 minutes of ending
+     */
     private void tryToInsertToSet(int beg2,int beg1, int end2, int end1){
         String beg1String;
         String end1String;
@@ -179,8 +204,9 @@ public class ClientGUI extends JFrame {
 
     }
 
-
-
+    /**
+     * Connects to server at certain ip and port.
+     */
     public void connectAction(){
 
         String  ipInput = textField1.getText();
@@ -193,15 +219,14 @@ public class ClientGUI extends JFrame {
             ipInput = "127.0.0.1";
         clientController.getClient().setIpAddress(ipInput);
 
-        clientController.viewSendsCalendarToModelAndRequestsFinalCalendar(ipInput);
+        clientController.viewSendsCalendarToModelAndRequestsFinalCalendar();
     }
 
-    //additional methods
-
-
-
+    /**
+     * Initializes JList model.
+     */
     public void initializeListModel() {
-        listModel = new DefaultListModel();
+        listModel = new DefaultListModel<String>();
         list1.setModel(listModel);
     }
 
@@ -217,6 +242,9 @@ public class ClientGUI extends JFrame {
         return responsePanel;
     }
 
+    /**
+     * Display dialog information that server is not running yet.
+     */
     public void displayInfoServerIsNotReady() {
         JOptionPane.showMessageDialog(this, "Can not sent form, server is not ready!");
     }
@@ -225,6 +253,9 @@ public class ClientGUI extends JFrame {
         this.sent = sent;
     }
 
+    /**
+     * Sets view
+     */
     public void setIsConnectedTrue(){
         isConnected.setText("Connected");
         isConnected.setForeground(Color.GREEN);
@@ -235,9 +266,8 @@ public class ClientGUI extends JFrame {
         isConnected.setForeground(Color.RED);
     }
 
-
     public void clearCalendar(){
-        DefaultListModel model;
+        DefaultListModel<String> model;
         model = (DefaultListModel) list1.getModel();
         model.clear();
         revalidate();
@@ -247,4 +277,6 @@ public class ClientGUI extends JFrame {
     public JPanel getMainPanel() {
         return MainPanel;
     }
+
+
 }

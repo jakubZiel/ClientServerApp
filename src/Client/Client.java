@@ -1,4 +1,4 @@
-package model.Client;
+package Client;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -6,13 +6,18 @@ import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
 
-import controller.Client.ClientController;
-import model.Data.Calendars;
-import model.Data.Time;
+import Data.Calendars;
+import Data.Time;
 
+
+/**
+ * Client thread that requests connection to Server and after being approved sends
+ * earlier gathered data to its ClientHandler and then waits for final Calendar to be transferred back to client.
+ *
+ */
 public class Client extends Thread{
 
-    public ClientController clientController;
+    private ClientController clientController;
 
     private Socket connectionSocket = null;
     private String ipAddress;
@@ -21,11 +26,16 @@ public class Client extends Thread{
     private DataOutputStream dataOutputS;
 
 
-    public ArrayList<Time> calendar;
-    public ArrayList<String> finalCalendarString;
+    private ArrayList<Time> calendar;
+    private ArrayList<String> finalCalendarString;
 
     private int portNumb = 5055;
 
+    /**
+     *
+     * Connects to clientHandler via socket.
+     * @throws IOException
+     */
     private  void connectToServerSocket() throws IOException {
 
         //connect to local host to correct port number
@@ -36,7 +46,9 @@ public class Client extends Thread{
             dataOutputS = new DataOutputStream(connectionSocket.getOutputStream());
     }
 
-
+    /**
+     * Closes socket connection to ClientHandler.
+     */
     private void closeConnection(){
         try {
             dataOutputS.close();
@@ -55,6 +67,11 @@ public class Client extends Thread{
 
     }
 
+    /**
+     * Main class function that starts thread and therefore the process of sending and acquiring back final calendar.
+     * It connects, requests view updates sends calendar and then wait for a returning set of meetings. At the end it also
+     * prints result to standard output.
+     */
     @Override
     public void run() {
 
@@ -89,6 +106,10 @@ public class Client extends Thread{
 
     }
 
+    /**
+     * Procedure sends calendar via socket to clientHandler for further processing.
+     */
+
     private void sendCalendarToServer(){
 
         try {
@@ -106,6 +127,10 @@ public class Client extends Thread{
         }
     }
 
+    /**
+     * Procedure waits for finalCalendar that is incoming from ClientHandler.
+     * Every received object is put in final Calendar of strings.
+     */
     private void getFinalCalendarFromServer(){
 
         try {
@@ -119,29 +144,18 @@ public class Client extends Thread{
         }
     }
 
-    public ClientController getClientController() {
-        return clientController;
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public ArrayList<String> getFinalCalendarString() {
-        return finalCalendarString;
-    }
-
-    public static void main(String[] args) {
-        Client client = new Client("192.168.1.110");
-    }
-
-    public ArrayList<Time> getCalendar() {
-        return calendar;
-    }
+    /**
+     * Checks if this time object can be put in the list of time objects at particular index.
+     * Function check whether will be sorted after insertion of object.
+     *
+     * @param beg2 hour of beginning
+     * @param beg1 minutes of beginning
+     * @param end2 hour of ending
+     * @param end1 minutes of ending
+     * @param dstIndex index to insert new Time object at
+     * @param notSelected checks if any JList item is selected
+     * @return true if time object can be inserted
+     */
 
     public boolean validateCalendarInput(int beg2, int beg1, int end2, int end1, int dstIndex, boolean notSelected) {
 
@@ -190,4 +204,61 @@ public class Client extends Thread{
         this.clientController = clientController;
     }
 
+
+
+    public void setConnectionSocket(Socket connectionSocket) {
+        this.connectionSocket = connectionSocket;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public void setDataInputS(DataInputStream dataInputS) {
+        this.dataInputS = dataInputS;
+    }
+
+    public void setCalendar(ArrayList<Time> calendar) {
+        this.calendar = calendar;
+    }
+
+    public Socket getConnectionSocket() {
+        return connectionSocket;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public DataInputStream getDataInputS() {
+        return dataInputS;
+    }
+
+    public DataOutputStream getDataOutputS() {
+        return dataOutputS;
+    }
+
+    public void setDataOutputS(DataOutputStream dataOutputS) {
+        this.dataOutputS = dataOutputS;
+    }
+
+    public ArrayList<Time> getCalendar() {
+        return calendar;
+    }
+
+    public ArrayList<String> getFinalCalendarString() {
+        return finalCalendarString;
+    }
+
+    public void setFinalCalendarString(ArrayList<String> finalCalendarString) {
+        this.finalCalendarString = finalCalendarString;
+    }
+
+    public int getPortNumb() {
+        return portNumb;
+    }
+
+    public void setPortNumb(int portNumb) {
+        this.portNumb = portNumb;
+    }
 }

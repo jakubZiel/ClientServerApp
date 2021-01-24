@@ -1,4 +1,4 @@
-package model.Server;
+package Server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.net.*;
 
-import controller.Server.ServerController;
-import view.Server.ServerGUI;
-import model.Data.Time;
-import model.Data.Lock;
+import Data.Time;
+import Data.Lock;
 
-
+/**
+ * Class manages incoming requests from potential Clients. Listens to a port a then after received request delegates
+ * service to ClientHandlerThread. Server works until it is shutdown, new object is not assigned to a reference after final calendar has been sent to clients.
+ */
 public class Server extends Thread{
 
-    public ServerController serverController;
+    private ServerController serverController;
 
     private ServerSocket socketHearing = null;
     private Socket connectionSocket = null;
@@ -28,12 +29,17 @@ public class Server extends Thread{
     private int connectedClients;
 
     //this function run everything
-
+    /**Starts thread main thread of server
+     */
     @Override
     public void run(){
         serverRunningForMultipleRequests();
     }
 
+    /**
+     * Creates server that listens to a port. Sets clientsController to new ServerController())
+     * @param port port that is listened to by server
+     */
     public Server(int port) {
 
         finalCalendar = new ArrayList<>();
@@ -44,6 +50,9 @@ public class Server extends Thread{
         connectedClients = 0;
     }
 
+    /**
+     * Prepares server for a new session with new input parameters (number of clients, meeting length).
+     */
     public void restart(){
         allConnectedClients = null;
         connectedClients = 0;
@@ -55,7 +64,12 @@ public class Server extends Thread{
     }
 
     //server management
-    public void setServerToListenToPort(int port){
+
+    /**
+     * set server to Listen to port.
+     * @param port port to listen to
+     */
+    private void setServerToListenToPort(int port){
         try {
             socketHearing = new ServerSocket(port);
         } catch (IOException e) {
@@ -63,7 +77,12 @@ public class Server extends Thread{
         }
     }
 
-    public void assignClientHandlersToClients(int connectedClients, int numberOfClients, int minNumberOfCommonPartOperations){
+    /**
+     Server listen to port and after connection is established, it assigns recently acquired connection to new ClientHandlerThread and stores it.
+     After the last expected client connects to server, server starts all ClientThreads one after another.
+     */
+
+    private void assignClientHandlersToClients(int minNumberOfCommonPartOperations){
 
         allConnectedClients = new ArrayList<>();
 
@@ -98,6 +117,10 @@ public class Server extends Thread{
         }
     }
 
+    /**
+     * Starts all ClientHandlerThreads.
+     * @param CHandlerList list of handlers deployed by server
+     */
     public void StartAllClientHandlers(ArrayList<ClientHandler> CHandlerList){
 
         for(ClientHandler cH : CHandlerList)
@@ -139,7 +162,10 @@ public class Server extends Thread{
 
     }
 
-    public void ServerWaitForClientHandlerThreads(){
+    /**
+     * Server thread stops until its is notified that request has been processed and Calendar has been sent to clients.
+     */
+    private void ServerWaitForClientHandlerThreads(){
         synchronized (CommonLock){
             try {
                 CommonLock.wait();
@@ -157,10 +183,9 @@ public class Server extends Thread{
         this.numberOfClients = numberOfClients;
     }
 
-    public void setServerController(ServerController serverController) {
-        this.serverController = serverController;
-    }
-
+    /**
+     * "Work loop" for a server. Thanks to this function we do not have to create new Server object after every time session terminates.
+     */
     public void serverRunningForMultipleRequests(){
         while (true){
             setServerToListenToPort(5055);
@@ -177,6 +202,9 @@ public class Server extends Thread{
         }
     }
 
+    /**
+     * Closes serverSocket that listens to given port.
+     */
     public void stopListeningToPort(){
         try {
             socketHearing.close();
@@ -185,6 +213,10 @@ public class Server extends Thread{
         }
     }
 
+    /**
+     * Function that provides entire lifecycle of started session. Is used as a help function for serverRunningMultipleRequests().
+     */
+
     public void serverIsActiveAndResponding(){
 
         if (numberOfClients < 1) {
@@ -192,7 +224,7 @@ public class Server extends Thread{
             return;
         }
 
-        assignClientHandlersToClients(connectedClients, numberOfClients, numberOfClients);
+        assignClientHandlersToClients(numberOfClients);
 
         System.out.println("Starting all ClientHandler threads");
 
@@ -211,6 +243,9 @@ public class Server extends Thread{
         restart();
     }
 
+    /**
+     * Closes all resources of server. Called before the termination of serverThread.
+     */
     public void terminateServer() {
         try {
             if (allConnectedClients!= null)
@@ -228,6 +263,66 @@ public class Server extends Thread{
 
     public Lock getServerLock() {
         return ServerLock;
+    }
+
+    public ServerController getServerController() {
+        return serverController;
+    }
+
+    public void setServerController(ServerController serverController) {
+        this.serverController = serverController;
+    }
+
+    public ServerSocket getSocketHearing() {
+        return socketHearing;
+    }
+
+    public void setSocketHearing(ServerSocket socketHearing) {
+        this.socketHearing = socketHearing;
+    }
+
+    public Socket getConnectionSocket() {
+        return connectionSocket;
+    }
+
+    public void setConnectionSocket(Socket connectionSocket) {
+        this.connectionSocket = connectionSocket;
+    }
+
+    public ArrayList<Time> getFinalCalendar() {
+        return finalCalendar;
+    }
+
+    public void setFinalCalendar(ArrayList<Time> finalCalendar) {
+        this.finalCalendar = finalCalendar;
+    }
+
+    public Lock getCommonLock() {
+        return CommonLock;
+    }
+
+    public double getMeetingLength() {
+        return MeetingLength;
+    }
+
+    public void setMeetingLength(double meetingLength) {
+        MeetingLength = meetingLength;
+    }
+
+    public ArrayList<ClientHandler> getAllConnectedClients() {
+        return allConnectedClients;
+    }
+
+    public int getNumberOfClients() {
+        return numberOfClients;
+    }
+
+    public int getConnectedClients() {
+        return connectedClients;
+    }
+
+    public void setConnectedClients(int connectedClients) {
+        this.connectedClients = connectedClients;
     }
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package model.Data;
+package Data;
 
 import java.util.ArrayList;
 import java.lang.Math;
@@ -13,6 +13,8 @@ import java.lang.Math;
 public class Calendars {
 
     /**
+     * Main function that aggregates all the functions of Calendars class to generate common part calendar and divide it into meetings.
+     * It returns set of possible meetings in form of array of Time objects.
      * @param cal1 first calendar
      * @param cal2 second calendar
      * @param duration duration of the meeting
@@ -38,6 +40,11 @@ public class Calendars {
      * @param cal
      */
 
+    /**
+     * Optionally Crop given calendar from top. Calendar can not have Time object that has beg or end smaller than bound.
+     * @param bound Lower time bound that trims input calendar
+     * @param cal input calendar
+     */
     private static void preProcessLower(Time bound, ArrayList<Time> cal){
         int index = 0;
 
@@ -51,9 +58,9 @@ public class Calendars {
     }
 
     /**
-     * Optionally Crop given calendar from top
-     * @param bound
-     * @param cal
+     * Optionally Crop given calendar from top. Calendar can not have Time object that has beg or end bigger than bound.
+     * @param bound Upper time bound that trims input calendar
+     * @param cal input calendar
      */
 
     private static void preProcessUpper(Time bound, ArrayList<Time> cal){
@@ -68,8 +75,12 @@ public class Calendars {
         }
     }
 
-
-
+    /**
+     * Main function of the algorithm, it sums up calendars cal1 and cal2 into result calendar that is the final output calendar equal to common part of input calendars.
+     * @param cal1 first input calendar
+     * @param cal2 second input calendar
+     * @param result output calendar
+     */
     private static void addTogether(ArrayList<Time> cal1, ArrayList<Time> cal2, ArrayList<Time> result){
         int index1, index2;
         double MaxB,MinE;
@@ -101,7 +112,7 @@ public class Calendars {
 
 
     /**
-     * Checks if have common part
+     * Checks if Time objects have common part.
      *
      * @param t1 period 1
      * @param t2 period 2
@@ -115,6 +126,12 @@ public class Calendars {
         return end > beg;
     }
 
+    /**
+     * Takes 2 Time objects and returns the earlier ending.
+     * @param t1 Time object 1
+     * @param t2 Time object 2
+     * @return
+     */
     public static double takeMaxOfBeg(Time t1, Time t2){
         if(t1 == null)return t2.beg;
         else if(t2 == null)return t1.beg;
@@ -122,6 +139,12 @@ public class Calendars {
         return Math.max(t1.beg, t2.beg);
     }
 
+    /**
+     * Takes 2 Time objects and returns the earlier ending.
+     * @param t1 Time object 1
+     * @param t2 Time object 2
+     * @return
+     */
     public static double takeMinOfEnd(Time t1, Time t2){
         if(t1 == null)return t2.end;
         else if(t2 == null)return t1.end;
@@ -131,7 +154,7 @@ public class Calendars {
 
 
     /**
-     * source calendar is turned to list of meetings and put into ArrayList list
+     * Source calendar is turned to list of meetings and put into ArrayList list.
      * @param list list of possible meetings
      * @param source calendar that is to be turned into meetings
      * @param length length of meeting
@@ -154,12 +177,23 @@ public class Calendars {
         }
     }
 
+    /**
+     * Returns length of Time object (end - beg).
+     *
+     * @param date Time object
+     * @return this.end - this.beg
+     */
     public static double periodLength(Time date){
         if(date.end < date.beg)return -1;
 
         return date.end - date.beg;
     }
 
+    /**
+     * Takes calendar of types Time and returns calendar made of strings.
+     * @param calendar  input calendar made of Time objects.
+     * @return Calendar made of Strings.
+     */
     public static ArrayList<String> changeFormatToString(ArrayList<Time> calendar){
         ArrayList<String> result = new ArrayList<>();
 
@@ -191,17 +225,10 @@ public class Calendars {
         return result;
     }
 
-    public static ArrayList<String> printAndReturnFormatted(ArrayList<Time> calendar){
-
-        if(calendar == null) return null;
-        ArrayList<String> resultFormatted = changeFormatToString(calendar);
-        int i = 1;
-        for(String s : resultFormatted) {
-            System.out.println("meeting nr " + i + " " + s);
-            i++;
-        }
-        return resultFormatted;
-    }
+    /**
+     * Prints formatted input calendar to terminal output.
+     * @param resultFormatted input calendar of String objects.
+     */
 
     public static void justPrintFormattedToString(ArrayList<String> resultFormatted){
 

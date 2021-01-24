@@ -1,6 +1,6 @@
 package zTest;
 
-import controller.Client.ClientController;
+import Client.ClientController;
 
 public class ClientGenerator {
 

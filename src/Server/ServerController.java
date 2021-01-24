@@ -1,12 +1,17 @@
-package controller.Server;
-
-import model.Server.Server;
-import view.Server.ServerGUI;
+package Server;
 
 import javax.swing.*;
 import java.awt.*;
 
+
+/**
+ *  Server Controller class, functions as a interface between model layer and view layer.
+ *  Works according to MVC project pattern.
+ */
+
 public class ServerController {
+
+
 
     private Server server;
     private ServerGUI serverGUI;
@@ -20,6 +25,11 @@ public class ServerController {
         connectGUIToController();
     }
 
+    /**
+     * Informs that view has already acquired settings for a new session, and starts or notifies Server thread.
+     * @param NumberOfClients number of clients in new session
+     * @param meetingLength length of new session
+     */
     public void viewHasFormForModel(int NumberOfClients, double meetingLength){
 
         if (server != null){
@@ -38,10 +48,17 @@ public class ServerController {
         }
     }
 
+    /**
+     * Sets GUIs controller to this object.
+     */
     public void connectGUIToController(){
         serverGUI.setServerController(this);
     }
 
+    /**
+     * Model request JList of currently connected clients to refresh, because new client has been connected.
+     * @param newItem Name of new client
+     */
     public void modelRequestsRefreshingConnectedClientsList(String newItem){
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -52,11 +69,21 @@ public class ServerController {
         });
     }
 
+    /**
+     * Called after previous session has been already finished. Sets view to show 'inactive' state.
+     */
     public void restartServerView(){
 
        serverGUI.restartListModel();
        serverGUI.getStatusBar().setForeground(Color.RED);
        serverGUI.getStatusBar().setText("status : inactive");
+    }
+
+    /**
+     * Closes all the servers resources.
+     */
+    public void terminateServer() {
+        server.terminateServer();
     }
 
     public Server getServer() {
@@ -67,8 +94,11 @@ public class ServerController {
         return serverGUI;
     }
 
-    public void terminateServer() {
-        server.terminateServer();
+    public boolean isServerRunning() {
+        return serverRunning;
     }
 
+    public void setServerRunning(boolean serverRunning) {
+        this.serverRunning = serverRunning;
+    }
 }

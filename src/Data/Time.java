@@ -1,4 +1,4 @@
-package model.Data;
+package Data;
 
 import java.io.Serializable;
 
@@ -21,8 +21,8 @@ public class Time implements Serializable{
     /**
      * Constructor that treats parameters as follows :
      * Whole part is treated as a hour and remaining fraction is treated as a fraction of an hour, resulting in getting remaining minutes.
-     * @param beg Begging of the period.
-     * @param end End of the period.
+     * @param beg Begging of the period
+     * @param end End of the period
      */
 
     public Time(double beg, double end){
@@ -35,10 +35,10 @@ public class Time implements Serializable{
     /**
      * Constructor that takes time in minutes and hours.
      *
-     * @param hrs1 Beginning hour.
-     * @param min1 Beginning minute.
-     * @param hrs2 Ending hour.
-     * @param min2 Ending minute.
+     * @param hrs1 Beginning hour
+     * @param min1 Beginning minute
+     * @param hrs2 Ending hour
+     * @param min2 Ending minute
      */
     public Time(int hrs1, int min1, int hrs2, int min2){
 
