@@ -144,6 +144,32 @@ public class ClientController {
 
     }
 
+    /**
+     * Called when user requests to download meetings into a file in plain text format.
+     */
+    public  void viewWantsToWriteToFilePlain(){
+
+        Thread task = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                client.createFile();
+            }
+        });
+        task.start();
+    }
+    /**
+     * Called when user requests to download meetings into a file in JSON format.
+     */
+    public  void viewWantToWriteToFileJSON(){
+
+        Thread task = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                client.createJSON();
+            }
+        });
+        task.start();
+    }
 
     public Client getClient() {
         return client;

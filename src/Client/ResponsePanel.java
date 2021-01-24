@@ -84,14 +84,14 @@ public class ResponsePanel extends JPanel {
         downloadJSON.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createJSON();
+                clientController.viewWantToWriteToFileJSON();
             }
         });
 
         downloadFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createFile();
+                clientController.viewWantsToWriteToFilePlain();
             }
         });
 
@@ -109,103 +109,6 @@ public class ResponsePanel extends JPanel {
         });
     }
 
-    //TODO make as a method of Client as it manipulates data
-
-    /**
-     * Creates simple file to store result of requests. Saves it to ./OutputFiles/meetings#date
-     */
-    private void createFile(){
-        int counter = 1;
-
-        Date currentDate = new Date(System.currentTimeMillis());
-
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
-
-        String fileName = ft.format(currentDate);
-
-        try {
-
-            File newFile = new File("./OutputFiles/meetings" + fileName);
-
-            if (newFile.createNewFile()) {
-                FileWriter fileWriter = new FileWriter("./OutputFiles/meetings" + fileName);
-
-                fileWriter.write("meetings\n");
-                fileWriter.flush();
-
-                for (String meeting : finalCalendar) {
-
-                    fileWriter.write("nr " + counter + " " + meeting + "\n");
-                    fileWriter.flush();
-                    counter++;
-                }
-
-                fileWriter.close();
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-
-    }
-
-
-    //TODO make as a method of Client as it manipulates data
-    /**
-     * Create JSON file to store result of requests. Saves it to ./OutputFiles/meetings#date.JSON
-     */
-    @SuppressWarnings("unchecked")
-    private void createJSON(){
-        int counter = 1;
-
-        Date currentDate = new Date(System.currentTimeMillis());
-
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
-
-        String fileName = ft.format(currentDate);
-
-        try {
-
-            File newFile = new File("./OutputFiles/meetings" + fileName + ".json");
-            FileWriter file = new FileWriter("./OutputFiles/meetings" + fileName + ".json");
-
-
-                newFile.createNewFile();
-                file.write("\"meetings\" : {\n");
-                file.flush();
-
-                for (String meeting : finalCalendar) {
-
-
-                    JSONObject meetingDetails = new JSONObject();
-                    meetingDetails.put("ID", counter);
-                    meetingDetails.put("bounds", meeting);
-
-                    JSONObject meetingObj = new JSONObject();
-                    meetingObj.put("meeting", meetingDetails);
-
-                    file.write(meetingObj.toJSONString());
-                    if (counter != finalCalendar.size())
-                        file.write(",");
-
-                    file.write("\n");
-                    file.flush();
-
-                    System.out.println(meetingObj.toJSONString());
-                    counter++;
-                }
-
-                file.write("}");
-                file.flush();
-
-                file.close();
-
-
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-    }
 
     /**
      * Initializes JList that displays result calendar after successful fetch.

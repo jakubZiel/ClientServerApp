@@ -1,13 +1,13 @@
 package Client;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Data.Calendars;
 import Data.Time;
+import org.json.simple.JSONObject;
 
 
 /**
@@ -199,11 +199,101 @@ public class Client extends Thread{
 
         return false;
     }
+    /**
+     * Creates simple file to store result of requests. Saves it to ./OutputFiles/meetings#date
+     */
+    public void createFile(){
+        int counter = 1;
+
+        Date currentDate = new Date(System.currentTimeMillis());
+
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+
+        String fileName = ft.format(currentDate);
+
+        try {
+
+            File newFile = new File("./OutputFiles/meetings" + fileName);
+
+            if (newFile.createNewFile()) {
+                FileWriter fileWriter = new FileWriter("./OutputFiles/meetings" + fileName);
+
+                fileWriter.write("meetings\n");
+                fileWriter.flush();
+
+                for (String meeting : clientController.getClient().getFinalCalendarString()) {
+
+                    fileWriter.write("nr " + counter + " " + meeting + "\n");
+                    fileWriter.flush();
+                    counter++;
+                }
+
+                fileWriter.close();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Create JSON file to store result of requests. Saves it to ./OutputFiles/meetings#date.JSON
+     */
+    @SuppressWarnings("unchecked")
+    public void createJSON(){
+        int counter = 1;
+
+        Date currentDate = new Date(System.currentTimeMillis());
+
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+
+        String fileName = ft.format(currentDate);
+
+        try {
+
+            File newFile = new File("./OutputFiles/meetings" + fileName + ".json");
+            FileWriter file = new FileWriter("./OutputFiles/meetings" + fileName + ".json");
+
+
+            newFile.createNewFile();
+            file.write("\"meetings\" : {\n");
+            file.flush();
+
+            for (String meeting : clientController.getClient().getFinalCalendarString()) {
+
+
+                JSONObject meetingDetails = new JSONObject();
+                meetingDetails.put("ID", counter);
+                meetingDetails.put("bounds", meeting);
+
+                JSONObject meetingObj = new JSONObject();
+                meetingObj.put("meeting", meetingDetails);
+
+                file.write(meetingObj.toJSONString());
+                if (counter != clientController.getClient().getFinalCalendarString().size())
+                    file.write(",");
+
+                file.write("\n");
+                file.flush();
+
+                System.out.println(meetingObj.toJSONString());
+                counter++;
+            }
+
+            file.write("}");
+            file.flush();
+
+            file.close();
+
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
 
     public void setClientController(ClientController clientController) {
         this.clientController = clientController;
     }
-
 
 
     public void setConnectionSocket(Socket connectionSocket) {
