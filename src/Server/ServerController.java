@@ -86,19 +86,58 @@ public class ServerController {
         server.terminateServer();
     }
 
-    public Server getServer() {
-        return server;
+
+    /**
+     * Sets new serverRunning.
+     *
+     * @param serverRunning New value of serverRunning.
+     */
+    public void setServerRunning(boolean serverRunning) {
+        this.serverRunning = serverRunning;
     }
 
+    /**
+     * Gets serverGUI.
+     *
+     * @return Value of serverGUI.
+     */
     public ServerGUI getServerGUI() {
         return serverGUI;
     }
 
+    /**
+     * Gets serverRunning.
+     *
+     * @return Value of serverRunning.
+     */
     public boolean isServerRunning() {
         return serverRunning;
     }
 
-    public void setServerRunning(boolean serverRunning) {
-        this.serverRunning = serverRunning;
+    /**
+     * Gets server.
+     *
+     * @return Value of server.
+     */
+    public Server getServer() {
+        return server;
+    }
+
+    /**
+     * Sets new serverGUI.
+     *
+     * @param serverGUI New value of serverGUI.
+     */
+    public void setServerGUI(ServerGUI serverGUI) {
+        this.serverGUI = serverGUI;
+    }
+
+    /**
+     * Sets new server.
+     *
+     * @param server New value of server.
+     */
+    public void setServer(Server server) {
+        this.server = server;
     }
 }

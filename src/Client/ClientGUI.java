@@ -230,17 +230,7 @@ public class ClientGUI extends JFrame {
         list1.setModel(listModel);
     }
 
-    public void setClientController(ClientController clientController) {
-        this.clientController = clientController;
-    }
 
-    public void setResponsePanel(ResponsePanel responsePanel) {
-        this.responsePanel = responsePanel;
-    }
-
-    public ResponsePanel getResponsePanel() {
-        return responsePanel;
-    }
 
     /**
      * Display dialog information that server is not running yet.
@@ -254,18 +244,24 @@ public class ClientGUI extends JFrame {
     }
 
     /**
-     * Sets view
+     * Sets view to connected state.
      */
     public void setIsConnectedTrue(){
         isConnected.setText("Connected");
         isConnected.setForeground(Color.GREEN);
     }
 
+    /**
+     * Sets view to disconnected state.
+     */
     public void setIsConnectedFalse(){
         isConnected.setText("Not Connected");
         isConnected.setForeground(Color.RED);
     }
 
+    /**
+     * Clears  JList after end of session.
+     */
     public void clearCalendar(){
         DefaultListModel<String> model;
         model = (DefaultListModel) list1.getModel();
@@ -279,4 +275,364 @@ public class ClientGUI extends JFrame {
     }
 
 
+    /**
+     * Sets new clientController.
+     *
+     * @param clientController New value of clientController.
+     */
+    public void setClientController(ClientController clientController) {
+        this.clientController = clientController;
+    }
+
+    /**
+     * Gets listModel.
+     *
+     * @return Value of listModel.
+     */
+    public DefaultListModel getListModel() {
+        return listModel;
+    }
+
+    /**
+     * Sets new listModel.
+     *
+     * @param listModel New value of listModel.
+     */
+    public void setListModel(DefaultListModel listModel) {
+        this.listModel = listModel;
+    }
+
+    /**
+     * Sets new MainPanel.
+     *
+     * @param MainPanel New value of MainPanel.
+     */
+    public void setMainPanel(JPanel MainPanel) {
+        this.MainPanel = MainPanel;
+    }
+
+    /**
+     * Gets sent.
+     *
+     * @return Value of sent.
+     */
+    public boolean isSent() {
+        return sent;
+    }
+
+    /**
+     * Gets clientController.
+     *
+     * @return Value of clientController.
+     */
+    public ClientController getClientController() {
+        return clientController;
+    }
+
+    /**
+     * Sets new responsePanel.
+     *
+     * @param responsePanel New value of responsePanel.
+     */
+    public void setResponsePanel(ResponsePanel responsePanel) {
+        this.responsePanel = responsePanel;
+    }
+
+    /**
+     * Gets responsePanel.
+     *
+     * @return Value of responsePanel.
+     */
+    public ResponsePanel getResponsePanel() {
+        return responsePanel;
+    }
+
+
+    /**
+     * Sets new shutDownButton.
+     *
+     * @param shutDownButton New value of shutDownButton.
+     */
+    public void setShutDownButton(JButton shutDownButton) {
+        this.shutDownButton = shutDownButton;
+    }
+
+    /**
+     * Gets connectButton.
+     *
+     * @return Value of connectButton.
+     */
+    public JButton getConnectButton() {
+        return connectButton;
+    }
+
+    /**
+     * Sets new removeBound.
+     *
+     * @param removeBound New value of removeBound.
+     */
+    public void setRemoveBound(JButton removeBound) {
+        this.removeBound = removeBound;
+    }
+
+    /**
+     * Sets new endBound.
+     *
+     * @param endBound New value of endBound.
+     */
+    public void setEndBound(JPanel endBound) {
+        this.endBound = endBound;
+    }
+
+    /**
+     * Sets new isConnected.
+     *
+     * @param isConnected New value of isConnected.
+     */
+    public void setIsConnected(JLabel isConnected) {
+        this.isConnected = isConnected;
+    }
+
+    /**
+     * Sets new spinnerEndBound1.
+     *
+     * @param spinnerEndBound1 New value of spinnerEndBound1.
+     */
+    public void setSpinnerEndBound1(JSpinner spinnerEndBound1) {
+        this.spinnerEndBound1 = spinnerEndBound1;
+    }
+
+    /**
+     * Gets end.
+     *
+     * @return Value of end.
+     */
+    public JLabel getEnd() {
+        return end;
+    }
+
+    /**
+     * Gets hrsMin2.
+     *
+     * @return Value of hrsMin2.
+     */
+    public JLabel getHrsMin2() {
+        return hrsMin2;
+    }
+
+    /**
+     * Gets shutDownButton.
+     *
+     * @return Value of shutDownButton.
+     */
+    public JButton getShutDownButton() {
+        return shutDownButton;
+    }
+
+    /**
+     * Gets hrsMin.
+     *
+     * @return Value of hrsMin.
+     */
+    public JLabel getHrsMin() {
+        return hrsMin;
+    }
+
+    /**
+     * Sets new end.
+     *
+     * @param end New value of end.
+     */
+    public void setEnd(JLabel end) {
+        this.end = end;
+    }
+
+    /**
+     * Sets new hrsMin2.
+     *
+     * @param hrsMin2 New value of hrsMin2.
+     */
+    public void setHrsMin2(JLabel hrsMin2) {
+        this.hrsMin2 = hrsMin2;
+    }
+
+    /**
+     * Sets new spinnerStartBound1.
+     *
+     * @param spinnerStartBound1 New value of spinnerStartBound1.
+     */
+    public void setSpinnerStartBound1(JSpinner spinnerStartBound1) {
+        this.spinnerStartBound1 = spinnerStartBound1;
+    }
+
+    /**
+     * Gets addBoundButton.
+     *
+     * @return Value of addBoundButton.
+     */
+    public JButton getAddBoundButton() {
+        return addBoundButton;
+    }
+
+    /**
+     * Gets spinnerStartBound1.
+     *
+     * @return Value of spinnerStartBound1.
+     */
+    public JSpinner getSpinnerStartBound1() {
+        return spinnerStartBound1;
+    }
+
+    /**
+     * Sets new connectButton.
+     *
+     * @param connectButton New value of connectButton.
+     */
+    public void setConnectButton(JButton connectButton) {
+        this.connectButton = connectButton;
+    }
+
+    /**
+     * Gets spinnerEndBound2.
+     *
+     * @return Value of spinnerEndBound2.
+     */
+    public JSpinner getSpinnerEndBound2() {
+        return spinnerEndBound2;
+    }
+
+    /**
+     * Gets startBound.
+     *
+     * @return Value of startBound.
+     */
+    public JLabel getStartBound() {
+        return startBound;
+    }
+
+    /**
+     * Sets new addBoundButton.
+     *
+     * @param addBoundButton New value of addBoundButton.
+     */
+    public void setAddBoundButton(JButton addBoundButton) {
+        this.addBoundButton = addBoundButton;
+    }
+
+    /**
+     * Gets list1.
+     *
+     * @return Value of list1.
+     */
+    public JList getList1() {
+        return list1;
+    }
+
+    /**
+     * Sets new spinnerStartBound2.
+     *
+     * @param spinnerStartBound2 New value of spinnerStartBound2.
+     */
+    public void setSpinnerStartBound2(JSpinner spinnerStartBound2) {
+        this.spinnerStartBound2 = spinnerStartBound2;
+    }
+
+    /**
+     * Gets removeBound.
+     *
+     * @return Value of removeBound.
+     */
+    public JButton getRemoveBound() {
+        return removeBound;
+    }
+
+    /**
+     * Gets endBound.
+     *
+     * @return Value of endBound.
+     */
+    public JPanel getEndBound() {
+        return endBound;
+    }
+
+    /**
+     * Gets spinnerEndBound1.
+     *
+     * @return Value of spinnerEndBound1.
+     */
+    public JSpinner getSpinnerEndBound1() {
+        return spinnerEndBound1;
+    }
+
+    /**
+     * Gets spinnerStartBound2.
+     *
+     * @return Value of spinnerStartBound2.
+     */
+    public JSpinner getSpinnerStartBound2() {
+        return spinnerStartBound2;
+    }
+
+    /**
+     * Sets new startBound.
+     *
+     * @param startBound New value of startBound.
+     */
+    public void setStartBound(JLabel startBound) {
+        this.startBound = startBound;
+    }
+
+    /**
+     * Sets new spinnerEndBound2.
+     *
+     * @param spinnerEndBound2 New value of spinnerEndBound2.
+     */
+    public void setSpinnerEndBound2(JSpinner spinnerEndBound2) {
+        this.spinnerEndBound2 = spinnerEndBound2;
+    }
+
+    /**
+     * Gets textField1.
+     *
+     * @return Value of textField1.
+     */
+    public JTextField getTextField1() {
+        return textField1;
+    }
+
+    /**
+     * Gets isConnected.
+     *
+     * @return Value of isConnected.
+     */
+    public JLabel getIsConnected() {
+        return isConnected;
+    }
+
+    /**
+     * Sets new list1.
+     *
+     * @param list1 New value of list1.
+     */
+    public void setList1(JList list1) {
+        this.list1 = list1;
+    }
+
+    /**
+     * Sets new hrsMin.
+     *
+     * @param hrsMin New value of hrsMin.
+     */
+    public void setHrsMin(JLabel hrsMin) {
+        this.hrsMin = hrsMin;
+    }
+
+    /**
+     * Sets new textField1.
+     *
+     * @param textField1 New value of textField1.
+     */
+    public void setTextField1(JTextField textField1) {
+        this.textField1 = textField1;
+    }
 }

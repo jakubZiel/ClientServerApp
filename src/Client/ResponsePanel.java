@@ -139,51 +139,129 @@ public class ResponsePanel extends JPanel {
     }
 
 
-    public ArrayList<String> getFinalCalendar() {
-        return finalCalendar;
-    }
-
+    /**
+     * Sets new finalCalendar.
+     *
+     * @param finalCalendar New value of finalCalendar.
+     */
     public void setFinalCalendar(ArrayList<String> finalCalendar) {
         this.finalCalendar = finalCalendar;
     }
 
-    public JList<String> getCalendar() {
-        return calendar;
-    }
-
-    public void setCalendar(JList<String> calendar) {
-        this.calendar = calendar;
-    }
-
-    public JButton getDownloadJSON() {
-        return downloadJSON;
-    }
-
-    public void setDownloadJSON(JButton downloadJSON) {
-        this.downloadJSON = downloadJSON;
-    }
-
-    public JLabel getFinalCalendarLabel() {
-        return finalCalendarLabel;
-    }
-
-    public void setFinalCalendarLabel(JLabel finalCalendarLabel) {
-        this.finalCalendarLabel = finalCalendarLabel;
-    }
-
-    public JButton getDownloadFile() {
-        return downloadFile;
-    }
-
-    public void setDownloadFile(JButton downloadFile) {
-        this.downloadFile = downloadFile;
-    }
-
+    /**
+     * Gets sendAnotherRequest.
+     *
+     * @return Value of sendAnotherRequest.
+     */
     public JButton getSendAnotherRequest() {
         return sendAnotherRequest;
     }
 
+    /**
+     * Sets new sendAnotherRequest.
+     *
+     * @param sendAnotherRequest New value of sendAnotherRequest.
+     */
     public void setSendAnotherRequest(JButton sendAnotherRequest) {
         this.sendAnotherRequest = sendAnotherRequest;
+    }
+
+    /**
+     * Sets new clientController.
+     *
+     * @param clientController New value of clientController.
+     */
+    public void setClientController(ClientController clientController) {
+        this.clientController = clientController;
+    }
+
+    /**
+     * Gets finalCalendarLabel.
+     *
+     * @return Value of finalCalendarLabel.
+     */
+    public JLabel getFinalCalendarLabel() {
+        return finalCalendarLabel;
+    }
+
+    /**
+     * Gets downloadFile.
+     *
+     * @return Value of downloadFile.
+     */
+    public JButton getDownloadFile() {
+        return downloadFile;
+    }
+
+    /**
+     * Sets new downloadFile.
+     *
+     * @param downloadFile New value of downloadFile.
+     */
+    public void setDownloadFile(JButton downloadFile) {
+        this.downloadFile = downloadFile;
+    }
+
+    /**
+     * Gets calendar.
+     *
+     * @return Value of calendar.
+     */
+    public JList<String> getCalendar() {
+        return calendar;
+    }
+
+    /**
+     * Gets clientController.
+     *
+     * @return Value of clientController.
+     */
+    public ClientController getClientController() {
+        return clientController;
+    }
+
+    /**
+     * Gets downloadJSON.
+     *
+     * @return Value of downloadJSON.
+     */
+    public JButton getDownloadJSON() {
+        return downloadJSON;
+    }
+
+    /**
+     * Sets new calendar.
+     *
+     * @param calendar New value of calendar.
+     */
+    public void setCalendar(JList<String> calendar) {
+        this.calendar = calendar;
+    }
+
+    /**
+     * Gets finalCalendar.
+     *
+     * @return Value of finalCalendar.
+     */
+    public ArrayList<String> getFinalCalendar() {
+        return finalCalendar;
+    }
+
+    /**
+     * Sets new finalCalendarLabel.
+     *
+     * @param finalCalendarLabel New value of finalCalendarLabel.
+     */
+    public void setFinalCalendarLabel(JLabel finalCalendarLabel) {
+        this.finalCalendarLabel = finalCalendarLabel;
+    }
+
+    /**
+     * Sets new downloadJSON.
+     *
+     * @param downloadJSON New value of downloadJSON.
+     */
+    public void setDownloadJSON(JButton downloadJSON) {
+        this.downloadJSON = downloadJSON;
     }
 }

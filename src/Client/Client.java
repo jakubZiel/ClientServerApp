@@ -234,7 +234,7 @@ public class Client extends Thread{
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Create JSON file to store result of requests. Saves it to ./OutputFiles/meetings#date.JSON
      */
@@ -291,64 +291,147 @@ public class Client extends Thread{
 
     }
 
-    public void setClientController(ClientController clientController) {
-        this.clientController = clientController;
-    }
-
-
+    /**
+     * Sets new connectionSocket.
+     *
+     * @param connectionSocket New value of connectionSocket.
+     */
     public void setConnectionSocket(Socket connectionSocket) {
         this.connectionSocket = connectionSocket;
     }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public void setDataInputS(DataInputStream dataInputS) {
-        this.dataInputS = dataInputS;
-    }
-
-    public void setCalendar(ArrayList<Time> calendar) {
-        this.calendar = calendar;
-    }
-
+    /**
+     * Gets connectionSocket.
+     *
+     * @return Value of connectionSocket.
+     */
     public Socket getConnectionSocket() {
         return connectionSocket;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public DataInputStream getDataInputS() {
-        return dataInputS;
-    }
-
-    public DataOutputStream getDataOutputS() {
-        return dataOutputS;
-    }
-
-    public void setDataOutputS(DataOutputStream dataOutputS) {
-        this.dataOutputS = dataOutputS;
-    }
-
+    /**
+     * Gets calendar.
+     *
+     * @return Value of calendar.
+     */
     public ArrayList<Time> getCalendar() {
         return calendar;
     }
 
-    public ArrayList<String> getFinalCalendarString() {
-        return finalCalendarString;
+    /**
+     * Gets dataInputS.
+     *
+     * @return Value of dataInputS.
+     */
+    public DataInputStream getDataInputS() {
+        return dataInputS;
     }
 
-    public void setFinalCalendarString(ArrayList<String> finalCalendarString) {
-        this.finalCalendarString = finalCalendarString;
-    }
-
+    /**
+     * Gets portNumb.
+     *
+     * @return Value of portNumb.
+     */
     public int getPortNumb() {
         return portNumb;
     }
 
+    /**
+     * Sets new clientController.
+     *
+     * @param clientController New value of clientController.
+     */
+    public void setClientController(ClientController clientController) {
+        this.clientController = clientController;
+    }
+
+    /**
+     * Gets finalCalendarString.
+     *
+     * @return Value of finalCalendarString.
+     */
+    public ArrayList<String> getFinalCalendarString() {
+        return finalCalendarString;
+    }
+
+    /**
+     * Gets clientController.
+     *
+     * @return Value of clientController.
+     */
+    public ClientController getClientController() {
+        return clientController;
+    }
+
+    /**
+     * Sets new dataInputS.
+     *
+     * @param dataInputS New value of dataInputS.
+     */
+    public void setDataInputS(DataInputStream dataInputS) {
+        this.dataInputS = dataInputS;
+    }
+
+    /**
+     * Gets dataOutputS.
+     *
+     * @return Value of dataOutputS.
+     */
+    public DataOutputStream getDataOutputS() {
+        return dataOutputS;
+    }
+
+    /**
+     * Sets new dataOutputS.
+     *
+     * @param dataOutputS New value of dataOutputS.
+     */
+    public void setDataOutputS(DataOutputStream dataOutputS) {
+        this.dataOutputS = dataOutputS;
+    }
+
+    /**
+     * Sets new ipAddress.
+     *
+     * @param ipAddress New value of ipAddress.
+     */
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    /**
+     * Sets new portNumb.
+     *
+     * @param portNumb New value of portNumb.
+     */
     public void setPortNumb(int portNumb) {
         this.portNumb = portNumb;
+    }
+
+    /**
+     * Sets new finalCalendarString.
+     *
+     * @param finalCalendarString New value of finalCalendarString.
+     */
+    public void setFinalCalendarString(ArrayList<String> finalCalendarString) {
+        this.finalCalendarString = finalCalendarString;
+    }
+
+    /**
+     * Gets ipAddress.
+     *
+     * @return Value of ipAddress.
+     */
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    /**
+     * Sets new calendar.
+     *
+     * @param calendar New value of calendar.
+     */
+    public void setCalendar(ArrayList<Time> calendar) {
+        this.calendar = calendar;
     }
 }

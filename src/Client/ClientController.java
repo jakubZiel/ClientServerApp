@@ -171,15 +171,45 @@ public class ClientController {
         task.start();
     }
 
+
+
+    public static void main(String[] args) {
+        ClientController controller = new ClientController();
+    }
+
+    /**
+     * Gets client.
+     *
+     * @return Value of client.
+     */
     public Client getClient() {
         return client;
     }
 
+    /**
+     * Gets clientGUI.
+     *
+     * @return Value of clientGUI.
+     */
     public ClientGUI getClientGUI() {
         return clientGUI;
     }
 
-    public static void main(String[] args) {
-        ClientController controller = new ClientController();
+    /**
+     * Sets new client.
+     *
+     * @param client New value of client.
+     */
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    /**
+     * Sets new clientGUI.
+     *
+     * @param clientGUI New value of clientGUI.
+     */
+    public void setClientGUI(ClientGUI clientGUI) {
+        this.clientGUI = clientGUI;
     }
 }

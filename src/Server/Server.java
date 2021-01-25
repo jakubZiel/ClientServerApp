@@ -261,72 +261,162 @@ public class Server extends Thread{
 
     }
 
-    public Lock getServerLock() {
-        return ServerLock;
-    }
 
-    public ServerController getServerController() {
-        return serverController;
-    }
-
-    public void setServerController(ServerController serverController) {
-        this.serverController = serverController;
-    }
-
-    public ServerSocket getSocketHearing() {
-        return socketHearing;
-    }
-
-    public void setSocketHearing(ServerSocket socketHearing) {
-        this.socketHearing = socketHearing;
-    }
-
-    public Socket getConnectionSocket() {
-        return connectionSocket;
-    }
-
-    public void setConnectionSocket(Socket connectionSocket) {
-        this.connectionSocket = connectionSocket;
-    }
-
-    public ArrayList<Time> getFinalCalendar() {
-        return finalCalendar;
-    }
-
-    public void setFinalCalendar(ArrayList<Time> finalCalendar) {
-        this.finalCalendar = finalCalendar;
-    }
-
-    public Lock getCommonLock() {
-        return CommonLock;
-    }
-
-    public double getMeetingLength() {
-        return MeetingLength;
-    }
-
-    public void setMeetingLength(double meetingLength) {
-        MeetingLength = meetingLength;
-    }
-
-    public ArrayList<ClientHandler> getAllConnectedClients() {
-        return allConnectedClients;
-    }
-
-    public int getNumberOfClients() {
-        return numberOfClients;
-    }
-
-    public int getConnectedClients() {
-        return connectedClients;
-    }
-
-    public void setConnectedClients(int connectedClients) {
-        this.connectedClients = connectedClients;
-    }
 
     public static void main(String[] args) {
         Server server = new Server(5055);
     }
 
+    /**
+     * Gets finalCalendar.
+     *
+     * @return Value of finalCalendar.
+     */
+    public ArrayList<Time> getFinalCalendar() {
+        return finalCalendar;
+    }
+
+    /**
+     * Gets connectionSocket.
+     *
+     * @return Value of connectionSocket.
+     */
+    public Socket getConnectionSocket() {
+        return connectionSocket;
+    }
+
+    /**
+     * Gets MeetingLength.
+     *
+     * @return Value of MeetingLength.
+     */
+    public double getMeetingLength() {
+        return MeetingLength;
+    }
+
+    /**
+     * Gets allConnectedClients.
+     *
+     * @return Value of allConnectedClients.
+     */
+    public ArrayList<ClientHandler> getAllConnectedClients() {
+        return allConnectedClients;
+    }
+
+    /**
+     * Sets new finalCalendar.
+     *
+     * @param finalCalendar New value of finalCalendar.
+     */
+    public void setFinalCalendar(ArrayList<Time> finalCalendar) {
+        this.finalCalendar = finalCalendar;
+    }
+
+    /**
+     * Gets connectedClients.
+     *
+     * @return Value of connectedClients.
+     */
+    public int getConnectedClients() {
+        return connectedClients;
+    }
+
+    /**
+     * Sets new socketHearing.
+     *
+     * @param socketHearing New value of socketHearing.
+     */
+    public void setSocketHearing(ServerSocket socketHearing) {
+        this.socketHearing = socketHearing;
+    }
+
+    /**
+     * Sets new MeetingLength.
+     *
+     * @param MeetingLength New value of MeetingLength.
+     */
+    public void setMeetingLength(double MeetingLength) {
+        this.MeetingLength = MeetingLength;
+    }
+
+    /**
+     * Gets ServerLock.
+     *
+     * @return Value of ServerLock.
+     */
+    public Lock getServerLock() {
+        return ServerLock;
+    }
+
+    /**
+     * Sets new connectedClients.
+     *
+     * @param connectedClients New value of connectedClients.
+     */
+    public void setConnectedClients(int connectedClients) {
+        this.connectedClients = connectedClients;
+    }
+
+    /**
+     * Gets CommonLock.
+     *
+     * @return Value of CommonLock.
+     */
+    public Lock getCommonLock() {
+        return CommonLock;
+    }
+
+    /**
+     * Gets serverController.
+     *
+     * @return Value of serverController.
+     */
+    public ServerController getServerController() {
+        return serverController;
+    }
+
+    /**
+     * Sets new connectionSocket.
+     *
+     * @param connectionSocket New value of connectionSocket.
+     */
+    public void setConnectionSocket(Socket connectionSocket) {
+        this.connectionSocket = connectionSocket;
+    }
+
+    /**
+     * Gets numberOfClients.
+     *
+     * @return Value of numberOfClients.
+     */
+    public int getNumberOfClients() {
+        return numberOfClients;
+    }
+
+    /**
+     * Gets socketHearing.
+     *
+     * @return Value of socketHearing.
+     */
+    public ServerSocket getSocketHearing() {
+        return socketHearing;
+    }
+
+    /**
+     * Sets new serverController.
+     *
+     * @param serverController New value of serverController.
+     */
+    public void setServerController(ServerController serverController) {
+        this.serverController = serverController;
+    }
+
+    /**
+     * Sets new allConnectedClients.
+     *
+     * @param allConnectedClients New value of allConnectedClients.
+     */
+    public void setAllConnectedClients(ArrayList<ClientHandler> allConnectedClients) {
+        this.allConnectedClients = allConnectedClients;
+    }
 }

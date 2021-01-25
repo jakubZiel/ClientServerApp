@@ -176,79 +176,175 @@ public class ClientHandler extends Thread {
         }
     }
 
-    public static int getFinishedOperations() {
-        return finishedOperations;
-    }
 
-    public static void setFinishedOperations(int finishedOperations) {
-        ClientHandler.finishedOperations = finishedOperations;
-    }
-
-    public DataInputStream getDataInputS() {
-        return dataInputS;
-    }
-
-    public void setDataInputS(DataInputStream dataInputS) {
-        this.dataInputS = dataInputS;
-    }
-
-    public DataOutputStream getDataOutputS() {
-        return dataOutputS;
-    }
-
-    public void setDataOutputS(DataOutputStream dataOutputS) {
-        this.dataOutputS = dataOutputS;
-    }
-
-    public Socket getConnectionSocket() {
-        return connectionSocket;
-    }
-
-    public void setConnectionSocket(Socket connectionSocket) {
-        this.connectionSocket = connectionSocket;
-    }
-
-    public ArrayList<Time> getFinalCalendar() {
-        return finalCalendar;
-    }
-
-    public void setFinalCalendar(ArrayList<Time> finalCalendar) {
-        this.finalCalendar = finalCalendar;
-    }
-
+    /**
+     * Gets clientsCalendar.
+     *
+     * @return Value of clientsCalendar.
+     */
     public ArrayList<Time> getClientsCalendar() {
         return clientsCalendar;
     }
 
+    /**
+     * Sets new MeetingLength.
+     *
+     * @param MeetingLength New value of MeetingLength.
+     */
+    public void setMeetingLength(double MeetingLength) {
+        this.MeetingLength = MeetingLength;
+    }
+
+    /**
+     * Sets new clientsCalendar.
+     *
+     * @param clientsCalendar New value of clientsCalendar.
+     */
     public void setClientsCalendar(ArrayList<Time> clientsCalendar) {
         this.clientsCalendar = clientsCalendar;
     }
 
-    public int getMinNumbOfCommonPartOperations() {
-        return minNumbOfCommonPartOperations;
-    }
-
-    public void setMinNumbOfCommonPartOperations(int minNumbOfCommonPartOperations) {
-        this.minNumbOfCommonPartOperations = minNumbOfCommonPartOperations;
-    }
-
-    public Lock getCommonLock() {
-        return commonLock;
-    }
-
-    public double getMeetingLength() {
-        return MeetingLength;
-    }
-
-    public void setMeetingLength(double meetingLength) {
-        MeetingLength = meetingLength;
-    }
-
+    /**
+     * Gets serverController.
+     *
+     * @return Value of serverController.
+     */
     public ServerController getServerController() {
         return serverController;
     }
 
+    /**
+     * Sets new finishedOperations.
+     *
+     * @param finishedOperations New value of finishedOperations.
+     */
+    public static void setFinishedOperations(int finishedOperations) {
+        finishedOperations = finishedOperations;
+    }
+
+    /**
+     * Gets MeetingLength.
+     *
+     * @return Value of MeetingLength.
+     */
+    public double getMeetingLength() {
+        return MeetingLength;
+    }
+
+    /**
+     * Gets finishedOperations.
+     *
+     * @return Value of finishedOperations.
+     */
+    public static int getFinishedOperations() {
+        return finishedOperations;
+    }
+
+    /**
+     * Sets new minNumbOfCommonPartOperations.
+     *
+     * @param minNumbOfCommonPartOperations New value of minNumbOfCommonPartOperations.
+     */
+    public void setMinNumbOfCommonPartOperations(int minNumbOfCommonPartOperations) {
+        this.minNumbOfCommonPartOperations = minNumbOfCommonPartOperations;
+    }
+
+    /**
+     * Gets dataOutputS.
+     *
+     * @return Value of dataOutputS.
+     */
+    public DataOutputStream getDataOutputS() {
+        return dataOutputS;
+    }
+
+    /**
+     * Sets new connectionSocket.
+     *
+     * @param connectionSocket New value of connectionSocket.
+     */
+    public void setConnectionSocket(Socket connectionSocket) {
+        this.connectionSocket = connectionSocket;
+    }
+
+    /**
+     * Sets new finalCalendar.
+     *
+     * @param finalCalendar New value of finalCalendar.
+     */
+    public void setFinalCalendar(ArrayList<Time> finalCalendar) {
+        this.finalCalendar = finalCalendar;
+    }
+
+    /**
+     * Gets finalCalendar.
+     *
+     * @return Value of finalCalendar.
+     */
+    public ArrayList<Time> getFinalCalendar() {
+        return finalCalendar;
+    }
+
+    /**
+     * Gets commonLock.
+     *
+     * @return Value of commonLock.
+     */
+    public Lock getCommonLock() {
+        return commonLock;
+    }
+
+    /**
+     * Sets new dataInputS.
+     *
+     * @param dataInputS New value of dataInputS.
+     */
+    public void setDataInputS(DataInputStream dataInputS) {
+        this.dataInputS = dataInputS;
+    }
+
+    /**
+     * Gets connectionSocket.
+     *
+     * @return Value of connectionSocket.
+     */
+    public Socket getConnectionSocket() {
+        return connectionSocket;
+    }
+
+    /**
+     * Sets new serverController.
+     *
+     * @param serverController New value of serverController.
+     */
     public void setServerController(ServerController serverController) {
         this.serverController = serverController;
+    }
+
+    /**
+     * Gets dataInputS.
+     *
+     * @return Value of dataInputS.
+     */
+    public DataInputStream getDataInputS() {
+        return dataInputS;
+    }
+
+    /**
+     * Gets minNumbOfCommonPartOperations.
+     *
+     * @return Value of minNumbOfCommonPartOperations.
+     */
+    public int getMinNumbOfCommonPartOperations() {
+        return minNumbOfCommonPartOperations;
+    }
+
+    /**
+     * Sets new dataOutputS.
+     *
+     * @param dataOutputS New value of dataOutputS.
+     */
+    public void setDataOutputS(DataOutputStream dataOutputS) {
+        this.dataOutputS = dataOutputS;
     }
 }

@@ -48,4 +48,6 @@ public class Time implements Serializable{
         end = ((double)min2)/60;
         end += hrs2;
     }
+
+
 }
